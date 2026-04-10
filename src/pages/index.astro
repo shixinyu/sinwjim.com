@@ -1,0 +1,231 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+
+const featuredQuestions = [
+  {
+    category: 'ريادة الأعمال',
+    title: 'كيف يبدأ رائد أعمال عربي منتجاً رقمياً من دون فريق كبير؟',
+    excerpt:
+      'أفضل الانطلاق من مشكلة واضحة ثم بناء نسخة صغيرة يمكن اختبارها خلال أسبوعين. السر ليس في كثرة المزايا، بل في سرعة التعلّم من المستخدمين.',
+    author: 'ليلى ناصر',
+    role: 'مؤسسة منتج تقني',
+    votes: '1.8k',
+    answers: 34
+  },
+  {
+    category: 'الذكاء الاصطناعي',
+    title: 'هل سيغيّر الذكاء الاصطناعي طريقة التعلّم الجامعي في العالم العربي؟',
+    excerpt:
+      'نعم، لكن التأثير الحقيقي سيظهر عندما تتحول الأدوات من مجرد مساعدين للكتابة إلى طبقة شخصية لفهم الطالب ومستواه وأسلوب تعلّمه.',
+    author: 'سليم المرزوق',
+    role: 'باحث في تقنيات التعليم',
+    votes: '920',
+    answers: 18
+  },
+  {
+    category: 'كتب ومعرفة',
+    title: 'ما الكتاب الذي غيّر طريقتك في التفكير خلال السنوات الأخيرة؟',
+    excerpt:
+      'السؤال الجيد هنا ليس ما الكتاب الأشهر، بل ما الكتاب الذي غيّر عادة عقلية لديك: كيف تقرأ، كيف تشك، وكيف تبني حجتك.',
+    author: 'مريم حكيم',
+    role: 'كاتبة ومترجمة',
+    votes: '640',
+    answers: 27
+  }
+];
+
+const communities = [
+  {
+    name: 'مجتمع التقنية',
+    description: 'حوارات عن البرمجة، المنتجات، والاتجاهات الرقمية بلغة عربية واضحة.',
+    members: '12k عضو'
+  },
+  {
+    name: 'مجتمع التاريخ',
+    description: 'أسئلة عميقة حول التاريخ الإسلامي والعالمي بعيداً عن التبسيط المخل.',
+    members: '8.4k عضو'
+  },
+  {
+    name: 'مجتمع العمل الحر',
+    description: 'خبرات عملية للتسعير، بناء السمعة، وإدارة المشاريع مع العملاء.',
+    members: '5.7k عضو'
+  }
+];
+
+const voices = [
+  {
+    name: 'أحمد الخطيب',
+    specialty: 'اقتصاد وتقنية',
+    blurb: 'يكتب إجابات قصيرة ومركزة تربط بين التحولات الرقمية وسوق العمل.',
+    badge: 'محرر مختار'
+  },
+  {
+    name: 'هدى الشريف',
+    specialty: 'تعليم وتطوير ذات',
+    blurb: 'تحول الأسئلة اليومية إلى إجابات قابلة للتطبيق في الدراسة والعمل.',
+    badge: 'إجابات رائجة'
+  },
+  {
+    name: 'عمر التونسي',
+    specialty: 'فلسفة وقراءة',
+    blurb: 'يميل إلى الإجابات الطويلة التي تفكك الفكرة قبل الدفاع عنها.',
+    badge: 'صوت المجتمع'
+  }
+];
+---
+
+<BaseLayout
+  title="Sinwjim | منصة عربية للأسئلة والإجابات"
+  description="نسخة MVP من منصة عربية للأسئلة والإجابات مستوحاة من Zhihu وQuora مع دعم كامل للعربية والموبايل."
+>
+  <div class="page-shell" id="top">
+    <Header />
+
+    <main>
+      <section class="hero-section">
+        <div class="hero-copy">
+          <div class="hero-kicker-row">
+            <p class="eyebrow">افتتاحية المنصة</p>
+            <span class="hero-bulletin">عدد تجريبي - ربيع 2026</span>
+          </div>
+          <h1>مساحة عربية للأسئلة الذكية والإجابات التي تستحق أن تُحفَظ.</h1>
+          <p class="hero-text">
+            Sinwjim يجمع بين سرعة التصفح التي يحبها القراء ونَفَسٍ تحريري يفضّل الفكرة
+            الواضحة، والسياق، والأصوات التي تكتب لتُفهَم لا لتُستهلك سريعاً.
+          </p>
+
+          <div class="hero-actions">
+            <a class="cta-button" href="#ask">اطرح أول سؤال</a>
+            <a class="ghost-button" href="#feed">اقرأ الافتتاحية</a>
+          </div>
+
+          <div class="hero-note">
+            <strong>ماذا نعدك؟</strong>
+            <p>
+              أسئلة أقل ضجيجاً، إجابات أكثر عمقاً، وتجربة عربية واضحة على الهاتف
+              والكمبيوتر من اليوم الأول.
+            </p>
+          </div>
+
+          <div class="hero-stats" aria-label="Platform highlights">
+            <div>
+              <strong>+12k</strong>
+              <span>قارئ أسبوعي</span>
+            </div>
+            <div>
+              <strong>340</strong>
+              <span>إجابة معمقة</span>
+            </div>
+            <div>
+              <strong>27</strong>
+              <span>مجتمعاً متخصصاً</span>
+            </div>
+          </div>
+        </div>
+
+        <aside class="hero-panel" aria-label="Featured discussion preview">
+          <div class="hero-panel__top">
+            <span>نقاش اليوم</span>
+            <span>يتصدر الآن</span>
+          </div>
+          <h2>كيف نبني منصة معرفة عربية لا تكافئ السرعة فقط، بل جودة الفكرة أيضاً؟</h2>
+          <p>
+            أفضل المنصات لا تشجع على الإجابة السريعة وحسب، بل تمنح القارئ أدوات للعودة،
+            الحفظ، المقارنة، واكتشاف الأصوات الموثوقة بوضوح.
+          </p>
+          <div class="hero-panel__meta">
+            <span>56 إجابة</span>
+            <span>4.9k مشاهدة</span>
+            <span>7 محررين</span>
+          </div>
+        </aside>
+      </section>
+
+      <section class="content-grid" id="feed">
+        <div class="main-column">
+          <SectionHeading
+            title="إجابات مميزة في الصفحة الرئيسية"
+            subtitle="الخلاصة اليومية"
+          />
+
+          <div class="question-list">
+            {featuredQuestions.map((question) => (
+              <article class="question-card">
+                <div class="question-card__meta">
+                  <span class="question-category">{question.category}</span>
+                  <span>{question.answers} إجابة</span>
+                </div>
+                <h3>{question.title}</h3>
+                <p>{question.excerpt}</p>
+                <div class="question-card__footer">
+                  <div>
+                    <strong>{question.author}</strong>
+                    <span>{question.role}</span>
+                  </div>
+                  <div class="vote-chip">{question.votes} تصويت</div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+
+        <aside class="sidebar-column">
+          <section class="sidebar-card" id="ask">
+            <p class="sidebar-card__eyebrow">ابدأ الحوار</p>
+            <h3>ما السؤال الذي تبحث له عن إجابة عربية عميقة؟</h3>
+            <form class="ask-form">
+              <label>
+                <span>عنوان السؤال</span>
+                <input type="text" placeholder="مثلاً: كيف أتعلم البرمجة من الصفر؟" />
+              </label>
+              <label>
+                <span>تفاصيل إضافية</span>
+                <textarea rows="4" placeholder="أضف خلفية سريعة تساعد المجتمع على تقديم إجابة أفضل"></textarea>
+              </label>
+              <button type="button" class="cta-button cta-button--full">نشر السؤال</button>
+            </form>
+          </section>
+
+          <section class="sidebar-card" id="spaces">
+            <SectionHeading
+              title="مجتمعات نشطة"
+              subtitle="مساحات متخصصة"
+              accent="gold"
+            />
+            <div class="community-list">
+              {communities.map((community) => (
+                <article class="community-item">
+                  <div>
+                    <h3>{community.name}</h3>
+                    <p>{community.description}</p>
+                  </div>
+                  <span>{community.members}</span>
+                </article>
+              ))}
+            </div>
+          </section>
+        </aside>
+      </section>
+
+      <section class="voices-section" id="voices">
+        <SectionHeading
+          title="أصوات تستحق المتابعة"
+          subtitle="كتّاب بارزون"
+          accent="rose"
+        />
+        <div class="voices-grid">
+          {voices.map((voice) => (
+            <article class="voice-card">
+              <span class="voice-badge">{voice.badge}</span>
+              <h3>{voice.name}</h3>
+              <p class="voice-specialty">{voice.specialty}</p>
+              <p>{voice.blurb}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+    </main>
+  </div>
+</BaseLayout>

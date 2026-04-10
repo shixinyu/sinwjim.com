@@ -1,0 +1,14 @@
+---
+interface Props {
+  title: string;
+  subtitle: string;
+  accent?: string;
+}
+
+const { title, subtitle, accent = 'royal' } = Astro.props;
+---
+
+<section class={`section-heading section-heading--${accent}`}>
+  <p>{subtitle}</p>
+  <h2>{title}</h2>
+</section>
