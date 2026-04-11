@@ -1,5 +1,5 @@
 ---
-import type { CollectionEntry } from 'astro:content';
+import { render, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from './Header.astro';
 import { getQuestionsBySlugs } from '../data/content';
@@ -17,7 +17,7 @@ const {
 } = Astro.props;
 
 const relatedQuestions = await getQuestionsBySlugs(question.data.relatedSlugs);
-const { Content } = await question.render();
+const { Content } = await render(question);
 ---
 
 <BaseLayout title={question.data.pageTitle} description={question.data.pageDescription}>
