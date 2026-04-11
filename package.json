@@ -1,0 +1,24 @@
+{
+  "name": "sinwjim-astro",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "tina:dev": "tinacms dev --port 4002 --datalayer-port 9001 -c \"astro dev\"",
+    "tina:build": "tinacms build && astro build"
+  },
+  "dependencies": {
+    "@tinacms/cli": "^2.2.2",
+    "astro": "^6.1.5",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "tinacms": "^3.7.2"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.2"
+  }
+}

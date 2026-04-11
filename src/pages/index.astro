@@ -1,0 +1,206 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import { getHomeConfig, getQuestionsBySlugs } from '../data/content';
+
+const homeConfig = await getHomeConfig();
+const featuredQuestions = await getQuestionsBySlugs(homeConfig.data.featuredQuestionSlugs);
+const heroFeatured = (await getQuestionsBySlugs([homeConfig.data.heroFeaturedSlug]))[0];
+const editorialQuestions = await getQuestionsBySlugs(homeConfig.data.editorialPicks.map((item) => item.slug));
+const editorialPicks = editorialQuestions.map((question, index) => ({
+  label: homeConfig.data.editorialPicks[index]?.label ?? 'مختارات',
+  title: question.data.title,
+  href: `/questions/${question.id}/`
+}));
+
+const communities = [
+  {
+    name: 'مجتمع التقنية',
+    description: 'حوارات عن البرمجة، المنتجات، والاتجاهات الرقمية بلغة عربية واضحة.',
+    members: '12k عضو'
+  },
+  {
+    name: 'مجتمع التاريخ',
+    description: 'أسئلة عميقة حول التاريخ الإسلامي والعالمي بعيداً عن التبسيط المخل.',
+    members: '8.4k عضو'
+  },
+  {
+    name: 'مجتمع العمل الحر',
+    description: 'خبرات عملية للتسعير، بناء السمعة، وإدارة المشاريع مع العملاء.',
+    members: '5.7k عضو'
+  }
+];
+
+const voices = [
+  {
+    name: 'أحمد الخطيب',
+    specialty: 'اقتصاد وتقنية',
+    blurb: 'يكتب إجابات قصيرة ومركزة تربط بين التحولات الرقمية وسوق العمل.',
+    badge: 'محرر مختار'
+  },
+  {
+    name: 'هدى الشريف',
+    specialty: 'تعليم وتطوير ذات',
+    blurb: 'تحول الأسئلة اليومية إلى إجابات قابلة للتطبيق في الدراسة والعمل.',
+    badge: 'إجابات رائجة'
+  },
+  {
+    name: 'عمر التونسي',
+    specialty: 'فلسفة وقراءة',
+    blurb: 'يميل إلى الإجابات الطويلة التي تفكك الفكرة قبل الدفاع عنها.',
+    badge: 'صوت المجتمع'
+  }
+];
+---
+
+<BaseLayout
+  title="Sinwjim | منصة عربية للأسئلة والإجابات"
+  description="نسخة MVP من منصة عربية للأسئلة والإجابات مستوحاة من Zhihu وQuora مع دعم كامل للعربية والموبايل."
+>
+  <div class="page-shell" id="top">
+    <Header />
+
+    <main>
+      <section class="hero-section">
+        <div class="hero-copy">
+          <div class="hero-kicker-row">
+            <p class="eyebrow">افتتاحية المنصة</p>
+            <span class="hero-bulletin">عدد تجريبي - ربيع 2026</span>
+          </div>
+          <h1>مساحة عربية للأسئلة الذكية والإجابات التي تستحق أن تُحفَظ.</h1>
+          <p class="hero-text">
+            Sinwjim يجمع بين سرعة التصفح التي يحبها القراء ونَفَسٍ تحريري يفضّل الفكرة
+            الواضحة، والسياق، والأصوات التي تكتب لتُفهَم لا لتُستهلك سريعاً.
+          </p>
+
+          <div class="hero-actions">
+            <a class="cta-button" href="#feed">استكشف الإجابات</a>
+            <a class="ghost-button" href="#spaces">استكشف المجتمعات</a>
+          </div>
+
+          <div class="hero-note">
+            <strong>ماذا نعدك؟</strong>
+            <p>
+              أسئلة أقل ضجيجاً، إجابات أكثر عمقاً، وتجربة عربية واضحة على الهاتف
+              والكمبيوتر من اليوم الأول.
+            </p>
+          </div>
+
+          <div class="hero-stats" aria-label="Platform highlights">
+            <div>
+              <strong>+12k</strong>
+              <span>قارئ أسبوعي</span>
+            </div>
+            <div>
+              <strong>340</strong>
+              <span>إجابة معمقة</span>
+            </div>
+            <div>
+              <strong>27</strong>
+              <span>مجتمعاً متخصصاً</span>
+            </div>
+          </div>
+        </div>
+
+        <a class="hero-panel hero-panel--link" href={`/questions/${heroFeatured.id}/`} aria-label="Featured discussion preview">
+          <div class="hero-panel__top">
+            <span>نقاش اليوم</span>
+            <span>يتصدر الآن</span>
+          </div>
+          <h2>{heroFeatured.data.title}</h2>
+          <p>{heroFeatured.data.excerpt}</p>
+          <div class="hero-panel__meta">
+            <span>{heroFeatured.data.answers} إجابة</span>
+            <span>{heroFeatured.data.stats[1]?.value} مشاهدة</span>
+            <span>قراءة مميزة</span>
+          </div>
+        </a>
+      </section>
+
+      <section class="content-grid" id="feed">
+        <div class="main-column">
+          <SectionHeading
+            title="إجابات مميزة في الصفحة الرئيسية"
+            subtitle="الخلاصة اليومية"
+          />
+
+          <div class="question-list">
+            {featuredQuestions.map((question) => (
+              <article class="question-card">
+                <div class="question-card__meta">
+                  <span class="question-category">{question.data.category}</span>
+                  <span class="question-card__answers">{question.data.answers} إجابة</span>
+                </div>
+                <h3><a href={`/questions/${question.id}/`}>{question.data.title}</a></h3>
+                <p>{question.data.excerpt}</p>
+                <div class="question-card__footer">
+                  <div class="question-card__author">
+                    <strong>{question.data.author}</strong>
+                    <span>{question.data.role}</span>
+                  </div>
+                  <div class="question-card__actions">
+                    <div class="vote-chip">{question.data.votes} تصويت</div>
+                    <a class="question-card__readmore" href={`/questions/${question.id}/`}>اقرأ الإجابة</a>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+
+        <aside class="sidebar-column">
+          <section class="sidebar-card editorial-card">
+            <p class="sidebar-card__eyebrow">مختارات التحرير</p>
+            <h3>ثلاث محطات سريعة لبدء القراءة اليوم</h3>
+            <div class="editorial-picks-list">
+              {editorialPicks.map((pick) => (
+                <a class="editorial-pick" href={pick.href}>
+                  <span class="editorial-pick__label">{pick.label}</span>
+                  <strong>{pick.title}</strong>
+                </a>
+              ))}
+            </div>
+          </section>
+
+          <section class="sidebar-card" id="spaces">
+            <SectionHeading
+              title="مجتمعات نشطة"
+              subtitle="مساحات متخصصة"
+              accent="gold"
+            />
+            <div class="community-list">
+              {communities.map((community) => (
+                <article class="community-item">
+                  <div>
+                    <h3>{community.name}</h3>
+                    <p>{community.description}</p>
+                  </div>
+                  <span>{community.members}</span>
+                </article>
+              ))}
+            </div>
+          </section>
+        </aside>
+      </section>
+
+      <section class="voices-section" id="voices">
+        <SectionHeading
+          title="أصوات تستحق المتابعة"
+          subtitle="كتّاب بارزون"
+          accent="rose"
+        />
+        <div class="voices-grid">
+          {voices.map((voice) => (
+            <article class="voice-card">
+              <span class="voice-badge">{voice.badge}</span>
+              <h3>{voice.name}</h3>
+              <p class="voice-specialty">{voice.specialty}</p>
+              <p>{voice.blurb}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+    </main>
+  </div>
+</BaseLayout>

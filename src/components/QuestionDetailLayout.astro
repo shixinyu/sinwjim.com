@@ -1,0 +1,108 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from './Header.astro';
+import { getQuestionsBySlugs } from '../data/content';
+
+interface Props {
+  question: CollectionEntry<'questions'>;
+  metaLabel?: string;
+  answerLabel?: string;
+}
+
+const {
+  question,
+  metaLabel = 'سؤال تحليلي طويل',
+  answerLabel = 'إجابة مميزة'
+} = Astro.props;
+
+const relatedQuestions = await getQuestionsBySlugs(question.data.relatedSlugs);
+const { Content } = await question.render();
+---
+
+<BaseLayout title={question.data.pageTitle} description={question.data.pageDescription}>
+  <div class="page-shell question-page-shell">
+    <Header />
+
+    <main class="question-page">
+      <section class="question-hero">
+        <div class="question-hero__main">
+          <div class="question-hero__meta">
+            <span class="question-hero__category">{question.data.category}</span>
+            <span>{metaLabel}</span>
+          </div>
+          <h1>{question.data.title}</h1>
+          <p class="question-hero__lead">{question.data.lead}</p>
+          <div class="question-hero__stats" aria-label="Question activity">
+            {question.data.stats.map((stat) => (
+              <div>
+                <strong>{stat.value}</strong>
+                <span>{stat.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <aside class="question-sidebar-card">
+          <p class="question-sidebar-card__eyebrow">عن هذا السؤال</p>
+          <h2>{question.data.whyNowTitle}</h2>
+          <p>{question.data.whyNowText}</p>
+          <div class="question-topic-list">
+            {question.data.topics.map((topic) => <span>{topic}</span>)}
+          </div>
+        </aside>
+      </section>
+
+      <section class="question-detail-grid">
+        <article class="answer-card">
+          <div class="answer-card__header">
+            <div>
+              <p class="answer-card__eyebrow">{answerLabel}</p>
+              <h2>{question.data.answerTitle}</h2>
+            </div>
+            <div class="answer-author">
+              <strong>{question.data.author}</strong>
+              <span>{question.data.role}</span>
+            </div>
+          </div>
+
+          <div class="answer-body">
+            <Content />
+          </div>
+        </article>
+
+        <aside class="question-sidebar">
+          <section class="question-sidebar-card">
+            <p class="question-sidebar-card__eyebrow">ملخص سريع</p>
+            <ul class="question-summary-list">
+              {question.data.summary.map((item) => <li>{item}</li>)}
+            </ul>
+          </section>
+
+          <section class="question-sidebar-card">
+            <p class="question-sidebar-card__eyebrow">انتقال سريع</p>
+            <div class="question-sidebar-actions">
+              <a class="ghost-button" href="/">العودة إلى الرئيسية</a>
+              <a class="cta-button" href="/#feed">استكشف أسئلة أخرى</a>
+            </div>
+          </section>
+        </aside>
+      </section>
+
+      <section class="related-questions-section">
+        <div class="related-questions-section__heading">
+          <p>أسئلة مرتبطة</p>
+          <h2>واصل القراءة في الموضوعات المتقاطعة</h2>
+        </div>
+        <div class="related-questions-grid">
+          {relatedQuestions.map((item) => (
+            <a class="related-question-card" href={`/questions/${item.id}/`}>
+              <span class="related-question-card__category">{item.data.category}</span>
+              <h3>{item.data.title}</h3>
+            </a>
+          ))}
+        </div>
+      </section>
+    </main>
+  </div>
+</BaseLayout>

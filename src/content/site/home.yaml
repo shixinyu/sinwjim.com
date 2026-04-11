@@ -1,0 +1,12 @@
+featuredQuestionSlugs:
+  - "startup-mvp"
+  - "ai-future"
+  - "book-that-changed-thinking"
+heroFeaturedSlug: "ai-future"
+editorialPicks:
+  - label: "قراءة اليوم"
+    slug: "ai-future"
+  - label: "من الأرشيف"
+    slug: "startup-mvp"
+  - label: "كتاب الأسبوع"
+    slug: "book-that-changed-thinking"

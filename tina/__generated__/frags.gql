@@ -1,0 +1,36 @@
+fragment QuestionParts on Question {
+  __typename
+  category
+  title
+  excerpt
+  author
+  role
+  votes
+  answers
+  pageTitle
+  pageDescription
+  lead
+  stats {
+    __typename
+    value
+    label
+  }
+  whyNowTitle
+  whyNowText
+  topics
+  answerTitle
+  summary
+  relatedSlugs
+  body
+}
+
+fragment HomeParts on Home {
+  __typename
+  featuredQuestionSlugs
+  heroFeaturedSlug
+  editorialPicks {
+    __typename
+    label
+    slug
+  }
+}
