@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout
+  title="404 | Sinwjim"
+  description="الصفحة التي تبحث عنها غير موجودة. سيتم تحويلك إلى الصفحة الرئيسية."
+>
+  <main class="not-found-page">
+    <section class="not-found-card">
+      <p class="not-found-kicker">404</p>
+      <h1>هذه الصفحة غير موجودة</h1>
+      <p>
+        يبدو أن الرابط غير صحيح أو أن الصفحة نُقلت. سيتم تحويلك تلقائياً إلى
+        الصفحة الرئيسية.
+      </p>
+      <a href="/" class="cta-button">العودة إلى الرئيسية</a>
+    </section>
+  </main>
+  <meta http-equiv="refresh" content="2;url=/" />
+</BaseLayout>
