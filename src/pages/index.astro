@@ -8,10 +8,14 @@ const homeConfig = await getHomeConfig();
 const featuredQuestions = await getQuestionsBySlugs(homeConfig.data.featuredQuestionSlugs);
 const allQuestions = await getQuestionEntries();
 const featuredQuestionIds = new Set(featuredQuestions.map((question) => question.id));
-const feedQuestions = [
-  ...featuredQuestions,
-  ...allQuestions.filter((question) => !featuredQuestionIds.has(question.id))
-];
+const nonFeaturedQuestions = allQuestions
+  .filter((question) => !featuredQuestionIds.has(question.id))
+  .sort((a, b) => {
+    const aTime = a.data.publishedAt ? new Date(a.data.publishedAt).getTime() : 0;
+    const bTime = b.data.publishedAt ? new Date(b.data.publishedAt).getTime() : 0;
+    return bTime - aTime;
+  });
+const feedQuestions = [...featuredQuestions, ...nonFeaturedQuestions];
 const heroFeatured = (await getQuestionsBySlugs([homeConfig.data.heroFeaturedSlug]))[0];
 const editorialQuestions = await getQuestionsBySlugs(homeConfig.data.editorialPicks.map((item) => item.slug));
 const editorialPicks = editorialQuestions.map((question, index) => ({
@@ -38,24 +42,42 @@ const communities = [
   }
 ];
 
-const voices = [
+const proverbs = [
   {
-    name: 'أحمد الخطيب',
-    specialty: 'اقتصاد وتقنية',
-    blurb: 'يكتب إجابات قصيرة ومركزة تربط بين التحولات الرقمية وسوق العمل.',
-    badge: 'محرر مختار'
+    text: 'اطلب العلم من المهد إلى اللحد.',
+    note: 'دعوة دائمة إلى أن المعرفة رحلة لا تتوقف.'
   },
   {
-    name: 'هدى الشريف',
-    specialty: 'تعليم وتطوير ذات',
-    blurb: 'تحول الأسئلة اليومية إلى إجابات قابلة للتطبيق في الدراسة والعمل.',
-    badge: 'إجابات رائجة'
+    text: 'درهم وقاية خير من قنطار علاج.',
+    note: 'التدبير المبكر أوفر من إصلاح الخطأ بعد وقوعه.'
   },
   {
-    name: 'عمر التونسي',
-    specialty: 'فلسفة وقراءة',
-    blurb: 'يميل إلى الإجابات الطويلة التي تفكك الفكرة قبل الدفاع عنها.',
-    badge: 'صوت المجتمع'
+    text: 'الصبر مفتاح الفرج.',
+    note: 'النتائج الكبيرة تحتاج نفساً طويلاً وثباتاً.'
+  },
+  {
+    text: 'خير الكلام ما قل ودل.',
+    note: 'القيمة ليست في كثرة الحديث بل في وضوح المعنى.'
+  },
+  {
+    text: 'من جد وجد ومن زرع حصد.',
+    note: 'العمل المتواصل هو الطريق الطبيعي للثمرة.'
+  },
+  {
+    text: 'رب ضارة نافعة.',
+    note: 'بعض التعثرات تفتح باباً لفهم أفضل أو فرصة أنضج.'
+  },
+  {
+    text: 'لكل مقام مقال.',
+    note: 'الحكمة في اختيار العبارة التي تناسب السياق.'
+  },
+  {
+    text: 'يد واحدة لا تصفق.',
+    note: 'التعاون ينجز ما تعجز عنه الجهود المنفردة.'
+  },
+  {
+    text: 'ليس كل ما يلمع ذهباً.',
+    note: 'المظهر وحده لا يكفي للحكم على القيمة الحقيقية.'
   }
 ];
 ---
@@ -195,23 +217,56 @@ const voices = [
         </aside>
       </section>
 
-      <section class="voices-section" id="voices">
+      <section class="proverbs-section" id="voices" data-proverbs-section>
         <SectionHeading
-          title="أصوات تستحق المتابعة"
-          subtitle="كتّاب بارزون"
+          title="أمثال عربية"
+          subtitle="حكمة متجددة"
           accent="rose"
         />
-        <div class="voices-grid">
-          {voices.map((voice) => (
-            <article class="voice-card">
-              <span class="voice-badge">{voice.badge}</span>
-              <h3>{voice.name}</h3>
-              <p class="voice-specialty">{voice.specialty}</p>
-              <p>{voice.blurb}</p>
+        <div class="proverbs-grid" data-proverbs-grid>
+          {proverbs.map((proverb, index) => (
+            <article class="proverb-card" data-proverb-card data-group={Math.floor(index / 3)}>
+              <span class="proverb-badge">مثل مأثور</span>
+              <h3>{proverb.text}</h3>
+              <p class="proverb-note">{proverb.note}</p>
             </article>
           ))}
         </div>
       </section>
+
+      <script is:inline>
+        (() => {
+          const section = document.querySelector('[data-proverbs-section]');
+          if (!section) return;
+
+          const cards = Array.from(section.querySelectorAll('[data-proverb-card]'));
+          if (cards.length === 0) return;
+
+          const totalGroups = cards.reduce((max, card) => {
+            const group = Number(card.getAttribute('data-group') || '0');
+            return Math.max(max, group);
+          }, 0) + 1;
+
+          let activeGroup = 0;
+
+          const renderGroup = () => {
+            cards.forEach((card) => {
+              const group = Number(card.getAttribute('data-group') || '0');
+              const isActive = group === activeGroup;
+              card.toggleAttribute('hidden', !isActive);
+            });
+          };
+
+          renderGroup();
+
+          if (totalGroups > 1) {
+            window.setInterval(() => {
+              activeGroup = (activeGroup + 1) % totalGroups;
+              renderGroup();
+            }, 10000);
+          }
+        })();
+      </script>
     </main>
   </div>
 </BaseLayout>

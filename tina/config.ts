@@ -38,6 +38,7 @@ export default defineConfig({
           { name: 'role', label: 'Role', type: 'string', required: true },
           { name: 'votes', label: 'Votes', type: 'string', required: true },
           { name: 'answers', label: 'Answers', type: 'number', required: true },
+          { name: 'publishedAt', label: 'Published At', type: 'datetime' },
           { name: 'pageTitle', label: 'Page Title', type: 'string', required: true },
           { name: 'pageDescription', label: 'Page Description', type: 'string', ui: { component: 'textarea' }, required: true },
           { name: 'lead', label: 'Lead', type: 'string', ui: { component: 'textarea' }, required: true },

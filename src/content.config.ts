@@ -11,6 +11,7 @@ const questions = defineCollection({
     role: z.string(),
     votes: z.string().default('0'),
     answers: z.number().default(0),
+    publishedAt: z.coerce.date().optional(),
     pageTitle: z.string().optional(),
     pageDescription: z.string().optional(),
     lead: z.string().optional(),

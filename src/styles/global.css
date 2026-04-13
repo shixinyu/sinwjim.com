@@ -749,42 +749,58 @@ main {
   white-space: nowrap;
 }
 
-.voices-section {
+.proverbs-section {
   display: grid;
   gap: 1rem;
 }
 
-.voices-grid {
+.proverbs-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
   align-items: stretch;
 }
 
-.voice-card {
+.proverb-card {
+  position: relative;
   min-width: 0;
+  padding: 1.35rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  backdrop-filter: blur(16px);
+  box-shadow: var(--shadow);
 }
 
-.voice-card h3 {
-  font-size: 1.18rem;
-  line-height: 1.5;
+.proverb-card h3 {
+  margin: 0;
+  font-size: 1.22rem;
+  line-height: 1.8;
+  color: var(--primary-strong);
 }
 
-.voice-card p {
-  overflow-wrap: anywhere;
+.proverb-note {
+  margin: 0.7rem 0 0;
+  color: var(--text-soft);
+  line-height: 1.9;
 }
 
-.voice-badge {
+.proverb-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: fit-content;
   margin-bottom: 1rem;
   padding: 0.45rem 0.75rem;
+  border-radius: 999px;
   background: rgba(127, 54, 91, 0.12);
   color: #7f365b;
+  font-size: 0.82rem;
+  font-weight: 700;
 }
 
-.voice-specialty {
-  margin: 0.35rem 0 0.85rem;
-  font-size: 0.95rem;
+.proverb-card[hidden] {
+  display: none;
 }
 
 @media (max-width: 1080px) {
@@ -814,11 +830,11 @@ main {
 
   .hero-section,
   .content-grid,
-  .voices-grid {
+  .proverbs-grid {
     grid-template-columns: 1fr;
   }
 
-  .voices-grid {
+  .proverbs-grid {
     display: grid;
   }
 }
@@ -886,7 +902,7 @@ main {
   .hero-panel,
   .question-card,
   .sidebar-card,
-  .voice-card {
+  .proverb-card {
     padding: 1.25rem;
     border-radius: 24px;
   }
@@ -1016,7 +1032,7 @@ main {
   .hero-panel,
   .question-card,
   .sidebar-card,
-  .voice-card,
+  .proverb-card,
   .editorial-pick {
     animation: rise 560ms ease both;
   }
