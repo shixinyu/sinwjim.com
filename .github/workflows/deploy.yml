@@ -18,10 +18,6 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      TINA_CLIENT_ID: ${{ secrets.TINA_CLIENT_ID }}
-      TINA_TOKEN: ${{ secrets.TINA_TOKEN }}
-      TINA_BRANCH: ${{ secrets.TINA_BRANCH }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -38,8 +34,8 @@ jobs:
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
-      - name: Build Tina admin and Astro site
-        run: npm run tina:build
+      - name: Build Astro site
+        run: npm run build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
