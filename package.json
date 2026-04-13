@@ -9,7 +9,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "tina:dev": "tinacms dev --port 4002 --datalayer-port 9001 -c \"astro dev\"",
-    "tina:build": "tinacms build && astro build"
+    "tina:build": "tinacms build --skip-cloud-checks --skip-indexing && astro build"
   },
   "dependencies": {
     "@tinacms/cli": "^2.2.2",
