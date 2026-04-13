@@ -936,6 +936,72 @@ main {
   margin: 0;
 }
 
+.not-found-page {
+  display: grid;
+  place-items: center;
+  min-height: 70vh;
+  padding: 2rem 0;
+}
+
+.not-found-card {
+  width: min(100%, 680px);
+  padding: 2rem;
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  background: var(--surface);
+  backdrop-filter: blur(16px);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.not-found-kicker {
+  margin: 0 0 0.8rem;
+  color: #8f5b12;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.not-found-card h1 {
+  margin: 0;
+  color: var(--primary-strong);
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  line-height: 1.15;
+}
+
+.not-found-card p {
+  margin: 1rem auto 0;
+  max-width: 42ch;
+  color: var(--text-soft);
+  font-size: 1rem;
+  line-height: 1.9;
+}
+
+.not-found-card .cta-button {
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 720px) {
+  .not-found-page {
+    min-height: 60vh;
+    padding: 1rem 0;
+  }
+
+  .not-found-card {
+    padding: 1.25rem;
+    border-radius: 24px;
+  }
+
+  .not-found-card h1 {
+    font-size: clamp(1.8rem, 8vw, 2.5rem);
+  }
+
+  .not-found-card p {
+    font-size: 0.96rem;
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .site-header,
   .hero-copy,
