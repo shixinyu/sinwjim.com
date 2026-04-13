@@ -1,0 +1,22 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getQuestionEntries, getQuestionEntry } from '../../data/content';
+import QuestionDetailLayout from '../../components/QuestionDetailLayout.astro';
+
+export async function getStaticPaths() {
+  const questions = await getQuestionEntries();
+  return questions.map((question) => ({
+    params: { slug: question.id }
+  }));
+}
+
+const { slug } = Astro.params;
+
+if (!slug) {
+  throw new Error('Missing question slug');
+}
+
+const question = await getQuestionEntry(slug);
+---
+
+<QuestionDetailLayout question={question} />

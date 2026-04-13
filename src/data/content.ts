@@ -1,5 +1,5 @@
 import type { CollectionEntry } from 'astro:content';
-import { getEntry } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 
 export async function getQuestionEntry(slug: string): Promise<CollectionEntry<'questions'>> {
   const entry = await getEntry('questions', slug);
@@ -8,6 +8,10 @@ export async function getQuestionEntry(slug: string): Promise<CollectionEntry<'q
   }
 
   return entry;
+}
+
+export async function getQuestionEntries(): Promise<CollectionEntry<'questions'>[]> {
+  return getCollection('questions');
 }
 
 export async function getQuestionsBySlugs(slugs: string[]): Promise<CollectionEntry<'questions'>[]> {

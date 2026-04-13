@@ -16,11 +16,29 @@ const {
   answerLabel = 'إجابة مميزة'
 } = Astro.props;
 
-const relatedQuestions = await getQuestionsBySlugs(question.data.relatedSlugs);
+const relatedQuestions = question.data.relatedSlugs.length
+  ? await getQuestionsBySlugs(question.data.relatedSlugs)
+  : [];
 const { Content } = await render(question);
+const pageTitle = question.data.pageTitle ?? `Sinwjim | ${question.data.title}`;
+const pageDescription = question.data.pageDescription ?? question.data.excerpt;
+const lead = question.data.lead ?? question.data.excerpt;
+const stats = question.data.stats.length
+  ? question.data.stats
+  : [
+      { value: String(question.data.answers), label: 'إجابة' },
+      { value: question.data.votes, label: 'تصويت' }
+    ];
+const whyNowTitle = question.data.whyNowTitle ?? 'لماذا يهم هذا السؤال؟';
+const whyNowText =
+  question.data.whyNowText ??
+  'هذا السؤال منشور حديثاً عبر TinaCMS، ويمكنك استكمال تفاصيله من لوحة التحرير في أي وقت.';
+const topics = question.data.topics;
+const answerTitle = question.data.answerTitle ?? 'إجابة منشورة';
+const summary = question.data.summary;
 ---
 
-<BaseLayout title={question.data.pageTitle} description={question.data.pageDescription}>
+<BaseLayout title={pageTitle} description={pageDescription}>
   <div class="page-shell question-page-shell">
     <Header />
 
@@ -32,9 +50,9 @@ const { Content } = await render(question);
             <span>{metaLabel}</span>
           </div>
           <h1>{question.data.title}</h1>
-          <p class="question-hero__lead">{question.data.lead}</p>
+          <p class="question-hero__lead">{lead}</p>
           <div class="question-hero__stats" aria-label="Question activity">
-            {question.data.stats.map((stat) => (
+            {stats.map((stat) => (
               <div>
                 <strong>{stat.value}</strong>
                 <span>{stat.label}</span>
@@ -45,11 +63,15 @@ const { Content } = await render(question);
 
         <aside class="question-sidebar-card">
           <p class="question-sidebar-card__eyebrow">عن هذا السؤال</p>
-          <h2>{question.data.whyNowTitle}</h2>
-          <p>{question.data.whyNowText}</p>
-          <div class="question-topic-list">
-            {question.data.topics.map((topic) => <span>{topic}</span>)}
-          </div>
+          <h2>{whyNowTitle}</h2>
+          <p>{whyNowText}</p>
+          {
+            topics.length > 0 && (
+              <div class="question-topic-list">
+                {topics.map((topic) => <span>{topic}</span>)}
+              </div>
+            )
+          }
         </aside>
       </section>
 
@@ -58,7 +80,7 @@ const { Content } = await render(question);
           <div class="answer-card__header">
             <div>
               <p class="answer-card__eyebrow">{answerLabel}</p>
-              <h2>{question.data.answerTitle}</h2>
+              <h2>{answerTitle}</h2>
             </div>
             <div class="answer-author">
               <strong>{question.data.author}</strong>
@@ -72,12 +94,16 @@ const { Content } = await render(question);
         </article>
 
         <aside class="question-sidebar">
-          <section class="question-sidebar-card">
-            <p class="question-sidebar-card__eyebrow">ملخص سريع</p>
-            <ul class="question-summary-list">
-              {question.data.summary.map((item) => <li>{item}</li>)}
-            </ul>
-          </section>
+          {
+            summary.length > 0 && (
+              <section class="question-sidebar-card">
+                <p class="question-sidebar-card__eyebrow">ملخص سريع</p>
+                <ul class="question-summary-list">
+                  {summary.map((item) => <li>{item}</li>)}
+                </ul>
+              </section>
+            )
+          }
 
           <section class="question-sidebar-card">
             <p class="question-sidebar-card__eyebrow">انتقال سريع</p>
@@ -89,20 +115,24 @@ const { Content } = await render(question);
         </aside>
       </section>
 
-      <section class="related-questions-section">
-        <div class="related-questions-section__heading">
-          <p>أسئلة مرتبطة</p>
-          <h2>واصل القراءة في الموضوعات المتقاطعة</h2>
-        </div>
-        <div class="related-questions-grid">
-          {relatedQuestions.map((item) => (
-            <a class="related-question-card" href={`/questions/${item.id}/`}>
-              <span class="related-question-card__category">{item.data.category}</span>
-              <h3>{item.data.title}</h3>
-            </a>
-          ))}
-        </div>
-      </section>
+      {
+        relatedQuestions.length > 0 && (
+          <section class="related-questions-section">
+            <div class="related-questions-section__heading">
+              <p>أسئلة مرتبطة</p>
+              <h2>واصل القراءة في الموضوعات المتقاطعة</h2>
+            </div>
+            <div class="related-questions-grid">
+              {relatedQuestions.map((item) => (
+                <a class="related-question-card" href={`/questions/${item.id}/`}>
+                  <span class="related-question-card__category">{item.data.category}</span>
+                  <h3>{item.data.title}</h3>
+                </a>
+              ))}
+            </div>
+          </section>
+        )
+      }
     </main>
   </div>
 </BaseLayout>

@@ -9,23 +9,25 @@ const questions = defineCollection({
     excerpt: z.string(),
     author: z.string(),
     role: z.string(),
-    votes: z.string(),
-    answers: z.number(),
-    pageTitle: z.string(),
-    pageDescription: z.string(),
-    lead: z.string(),
-    stats: z.array(
-      z.object({
-        value: z.string(),
-        label: z.string()
-      })
-    ),
-    whyNowTitle: z.string(),
-    whyNowText: z.string(),
-    topics: z.array(z.string()),
-    answerTitle: z.string(),
-    summary: z.array(z.string()),
-    relatedSlugs: z.array(z.string())
+    votes: z.string().default('0'),
+    answers: z.number().default(0),
+    pageTitle: z.string().optional(),
+    pageDescription: z.string().optional(),
+    lead: z.string().optional(),
+    stats: z
+      .array(
+        z.object({
+          value: z.string(),
+          label: z.string()
+        })
+      )
+      .default([]),
+    whyNowTitle: z.string().optional(),
+    whyNowText: z.string().optional(),
+    topics: z.array(z.string()).default([]),
+    answerTitle: z.string().optional(),
+    summary: z.array(z.string()).default([]),
+    relatedSlugs: z.array(z.string()).default([])
   })
 });
 
