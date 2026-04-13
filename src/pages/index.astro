@@ -2,10 +2,16 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import SectionHeading from '../components/SectionHeading.astro';
-import { getHomeConfig, getQuestionsBySlugs } from '../data/content';
+import { getHomeConfig, getQuestionEntries, getQuestionsBySlugs } from '../data/content';
 
 const homeConfig = await getHomeConfig();
 const featuredQuestions = await getQuestionsBySlugs(homeConfig.data.featuredQuestionSlugs);
+const allQuestions = await getQuestionEntries();
+const featuredQuestionIds = new Set(featuredQuestions.map((question) => question.id));
+const feedQuestions = [
+  ...featuredQuestions,
+  ...allQuestions.filter((question) => !featuredQuestionIds.has(question.id))
+];
 const heroFeatured = (await getQuestionsBySlugs([homeConfig.data.heroFeaturedSlug]))[0];
 const editorialQuestions = await getQuestionsBySlugs(homeConfig.data.editorialPicks.map((item) => item.slug));
 const editorialPicks = editorialQuestions.map((question, index) => ({
@@ -125,8 +131,13 @@ const voices = [
             subtitle="الخلاصة اليومية"
           />
 
+          <p class="question-list__intro">
+            تبدأ القائمة بالمحتوى المختار للواجهة، ثم تُلحق به أحدث الأسئلة المنشورة في
+            المنصة حتى لا تضيع الإضافات الجديدة خارج الصفحة الرئيسية.
+          </p>
+
           <div class="question-list">
-            {featuredQuestions.map((question) => (
+            {feedQuestions.map((question) => (
               <article class="question-card">
                 <div class="question-card__meta">
                   <span class="question-category">{question.data.category}</span>
