@@ -22,6 +22,8 @@ const relatedQuestions = question.data.relatedSlugs.length
 const { Content } = await render(question);
 const pageTitle = question.data.pageTitle ?? `Sinwjim | ${question.data.title}`;
 const pageDescription = question.data.pageDescription ?? question.data.excerpt;
+const coverImage = question.data.coverImage;
+const coverImageAlt = question.data.coverImageAlt ?? question.data.title;
 const lead = question.data.lead ?? question.data.excerpt;
 const stats = question.data.stats.length
   ? question.data.stats
@@ -51,6 +53,13 @@ const summary = question.data.summary;
           </div>
           <h1>{question.data.title}</h1>
           <p class="question-hero__lead">{lead}</p>
+          {
+            coverImage && (
+              <figure class="question-hero__figure">
+                <img src={coverImage} alt={coverImageAlt} loading="eager" />
+              </figure>
+            )
+          }
           <div class="question-hero__stats" aria-label="Question activity">
             {stats.map((stat) => (
               <div>

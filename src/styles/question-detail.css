@@ -85,6 +85,22 @@
   line-height: 2;
 }
 
+.question-hero__figure {
+  margin: 1.35rem 0 0;
+  border: 1px solid rgba(76, 61, 137, 0.12);
+  border-radius: 1.4rem;
+  background:
+    radial-gradient(circle at top right, rgba(255, 194, 180, 0.38), transparent 45%),
+    linear-gradient(135deg, rgba(255, 248, 243, 0.95), rgba(255, 255, 255, 0.92));
+  overflow: hidden;
+}
+
+.question-hero__figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .question-hero__stats {
   gap: 0.9rem;
   flex-wrap: wrap;

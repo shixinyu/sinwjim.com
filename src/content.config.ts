@@ -14,6 +14,8 @@ const questions = defineCollection({
     publishedAt: z.coerce.date().optional(),
     pageTitle: z.string().optional(),
     pageDescription: z.string().optional(),
+    coverImage: z.string().optional(),
+    coverImageAlt: z.string().optional(),
     lead: z.string().optional(),
     stats: z
       .array(
