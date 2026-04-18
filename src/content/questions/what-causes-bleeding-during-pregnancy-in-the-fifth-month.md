@@ -6,7 +6,7 @@ author: "د. هناء السالم"
 role: "طبيبة صحة المرأة"
 votes: "920"
 answers: 21
-publishedAt: 2026-04-04
+publishedAt: 2026-04-18
 pageTitle: "Sinwjim | أسباب نزول الدم أثناء الحمل في الشهر الخامس"
 pageDescription: "إجابة عربية مطولة حول أسباب نزول الدم أثناء الحمل في الشهر الخامس، ومتى يكون الأمر طبيعياً نسبياً ومتى يحتاج إلى مراجعة طبية عاجلة."
 coverImage: "/images/pregnancy-bleeding-fifth-month.jpg"
