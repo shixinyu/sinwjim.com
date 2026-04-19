@@ -31,7 +31,7 @@ summary:
   - "لهذا لا يستطيع الجسم الاستمرار طويلاً إذا حُرم من الماء."
 relatedSlugs:
   - "how-much-water-should-i-drink-daily"
-  - "why-does-egg-solidify-when-heated"
+  - "1128-لماذا-يتجمد-البيض-عند-تسخينه"
 ---
 
 ## 1. لأن جسم الإنسان يعتمد على الماء في كل مكان تقريباً
