@@ -30,7 +30,7 @@ summary:
   - "الانسحاب من الجدل والمطاردة يحميك أكثر من أي محاولة لإثارة الندم."
   - "قيمة الشخص تظهر في طريقته في النهوض لا في قدرته على الرد المؤذي."
 relatedSlugs:
-  - "how-do-i-know-he-is-just-playing-with-me"
+  - "517-كيف-اعرف-انه-يتسلى-بى"
   - "how-do-i-know-he-loves-me-from-his-body-language"
 ---
 
