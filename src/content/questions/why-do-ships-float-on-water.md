@@ -31,7 +31,7 @@ summary:
   - "لذلك قد تغرق قطعة حديد صغيرة بينما تطفو سفينة معدنية كبيرة."
 relatedSlugs:
   - "what-is-the-difference-between-a-sea-and-a-lake"
-  - "why-cant-humans-live-without-water"
+  - "590-لماذا-لا-يستطيع-الانسان-العيش-بدون-ماء"
 ---
 
 ## 1. لماذا لا تكفي مقارنة السفينة بقطعة حديد؟

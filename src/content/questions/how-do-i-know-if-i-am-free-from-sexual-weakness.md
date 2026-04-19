@@ -33,7 +33,7 @@ summary:
   - "إذا كانت المشكلة متكررة أو مستمرة، فالتقييم الطبي هو الطريق الأدق."
 relatedSlugs:
   - "how-much-water-should-i-drink-daily"
-  - "why-cant-humans-live-without-water"
+  - "590-لماذا-لا-يستطيع-الانسان-العيش-بدون-ماء"
 ---
 
 ## 1. لا تحكم على نفسك من موقف واحد
