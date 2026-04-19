@@ -31,7 +31,7 @@ summary:
   - "الحب لا يثبت بلغة الجسد فقط، بل بالوضوح والسلوك أيضاً."
 relatedSlugs:
   - "how-do-i-know-he-is-just-playing-with-me"
-  - "how-to-learn-about-a-topic"
+  - "1543-كيف-اعرف-عن-الموضوع"
 ---
 
 ## 1. لا تبحثي عن علامة واحدة سحرية

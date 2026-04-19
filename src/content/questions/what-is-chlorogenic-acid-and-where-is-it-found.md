@@ -31,7 +31,7 @@ summary:
   - "يُذكر كثيراً في سياق التغذية بسبب خصائصه الكيميائية والنباتية."
 relatedSlugs:
   - "why-does-egg-solidify-when-heated"
-  - "how-to-learn-about-a-topic"
+  - "1543-كيف-اعرف-عن-الموضوع"
 ---
 
 ## 1. ما هو حمض الكلوروجينيك ببساطة؟
