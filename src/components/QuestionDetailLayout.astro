@@ -133,7 +133,7 @@ const summary = question.data.summary;
             </div>
             <div class="related-questions-grid">
               {relatedQuestions.map((item) => (
-                <a class="related-question-card" href={`/questions/${item.id}/`}>
+                <a class="related-question-card" href={`/${item.id}/`}>
                   <span class="related-question-card__category">{item.data.category}</span>
                   <h3>{item.data.title}</h3>
                 </a>

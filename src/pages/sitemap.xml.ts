@@ -24,7 +24,7 @@ export const GET: APIRoute = async () => {
       loc: toAbsoluteUrl('/robots.txt'),
     },
     ...questions.map((question) => ({
-      loc: toAbsoluteUrl(`/questions/${question.id}/`),
+      loc: toAbsoluteUrl(`/${question.id}/`),
       lastmod: question.data.publishedAt ? formatDate(question.data.publishedAt) : undefined,
     })),
   ];

@@ -21,7 +21,7 @@ const editorialQuestions = await getQuestionsBySlugs(homeConfig.data.editorialPi
 const editorialPicks = editorialQuestions.map((question, index) => ({
   label: homeConfig.data.editorialPicks[index]?.label ?? 'مختارات',
   title: question.data.title,
-  href: `/questions/${question.id}/`
+  href: `/${question.id}/`
 }));
 
 const communities = [
@@ -131,7 +131,7 @@ const proverbs = [
           </div>
         </div>
 
-        <a class="hero-panel hero-panel--link" href={`/questions/${heroFeatured.id}/`} aria-label="Featured discussion preview">
+        <a class="hero-panel hero-panel--link" href={`/${heroFeatured.id}/`} aria-label="Featured discussion preview">
           <div class="hero-panel__top">
             <span>نقاش اليوم</span>
             <span>يتصدر الآن</span>
@@ -165,7 +165,7 @@ const proverbs = [
                   <span class="question-category">{question.data.category}</span>
                   <span class="question-card__answers">{question.data.answers} إجابة</span>
                 </div>
-                <h3><a href={`/questions/${question.id}/`}>{question.data.title}</a></h3>
+                <h3><a href={`/${question.id}/`}>{question.data.title}</a></h3>
                 <p>{question.data.excerpt}</p>
                 <div class="question-card__footer">
                   <div class="question-card__author">
@@ -174,7 +174,7 @@ const proverbs = [
                   </div>
                   <div class="question-card__actions">
                     <div class="vote-chip">{question.data.votes} تصويت</div>
-                    <a class="question-card__readmore" href={`/questions/${question.id}/`}>اقرأ الإجابة</a>
+                    <a class="question-card__readmore" href={`/${question.id}/`}>اقرأ الإجابة</a>
                   </div>
                 </div>
               </article>
