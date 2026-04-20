@@ -33,7 +33,7 @@ summary:
   - "وجود ألم، تقلصات، دوخة، أو زيادة كمية الدم يجعل الحالة أكثر إلحاحاً."
   - "القاعدة الآمنة: لا تكتفي بالمراقبة الطويلة في المنزل من دون استشارة طبية."
 relatedSlugs:
-  - "how-much-water-should-i-drink-daily"
+  - "1363-ماهي-كمية-الماء-الواجب-شربها-يوميا"
   - "what-is-the-difference-between-male-and-female-breasts"
 ---
 
