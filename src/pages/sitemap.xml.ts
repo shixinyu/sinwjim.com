@@ -15,6 +15,9 @@ function formatDate(date: Date) {
 
 export const GET: APIRoute = async () => {
   const questions = await getQuestionEntries();
+  const featuredQuestionCount = 3;
+  const paginatedQuestionCount = Math.max(0, questions.length - featuredQuestionCount);
+  const paginatedPageCount = Math.ceil(paginatedQuestionCount / 10);
 
   const urls = [
     {
@@ -26,6 +29,9 @@ export const GET: APIRoute = async () => {
     ...questions.map((question) => ({
       loc: toAbsoluteUrl(`/${question.id}/`),
       lastmod: question.data.publishedAt ? formatDate(question.data.publishedAt) : undefined,
+    })),
+    ...Array.from({ length: Math.max(0, paginatedPageCount - 1) }, (_, index) => ({
+      loc: toAbsoluteUrl(`/page/${index + 2}/`),
     })),
   ];
 

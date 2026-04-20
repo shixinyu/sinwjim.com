@@ -1,8 +1,28 @@
 ---
-import HomePageContent from '../components/HomePageContent.astro';
-import { getHomeConfig, getQuestionEntries, getQuestionsBySlugs } from '../data/content';
+import HomePageContent from '../../components/HomePageContent.astro';
+import { getHomeConfig, getQuestionEntries, getQuestionsBySlugs } from '../../data/content';
 
 const PAGE_SIZE = 10;
+
+export async function getStaticPaths() {
+  const pageSize = 10;
+  const homeConfig = await getHomeConfig();
+  const featuredQuestions = await getQuestionsBySlugs(homeConfig.data.featuredQuestionSlugs);
+  const allQuestions = await getQuestionEntries();
+  const featuredQuestionIds = new Set(featuredQuestions.map((question) => question.id));
+  const nonFeaturedQuestions = allQuestions.filter((question) => !featuredQuestionIds.has(question.id));
+  const totalPages = Math.max(1, Math.ceil(nonFeaturedQuestions.length / pageSize));
+
+  return Array.from({ length: Math.max(0, totalPages - 1) }, (_, index) => ({
+    params: { page: String(index + 2) }
+  }));
+}
+
+const pageNumber = Number(Astro.params.page || '1');
+
+if (!Number.isInteger(pageNumber) || pageNumber < 2) {
+  throw new Error('Invalid page number');
+}
 
 const homeConfig = await getHomeConfig();
 const featuredQuestions = await getQuestionsBySlugs(homeConfig.data.featuredQuestionSlugs);
@@ -15,8 +35,14 @@ const nonFeaturedQuestions = allQuestions
     const bTime = b.data.publishedAt ? new Date(b.data.publishedAt).getTime() : 0;
     return bTime - aTime;
   });
-const pageQuestions = nonFeaturedQuestions.slice(0, PAGE_SIZE);
 const totalPages = Math.max(1, Math.ceil(nonFeaturedQuestions.length / PAGE_SIZE));
+
+if (pageNumber > totalPages) {
+  throw new Error(`Unknown page number: ${pageNumber}`);
+}
+
+const startIndex = (pageNumber - 1) * PAGE_SIZE;
+const pageQuestions = nonFeaturedQuestions.slice(startIndex, startIndex + PAGE_SIZE);
 const heroFeatured = (await getQuestionsBySlugs([homeConfig.data.heroFeaturedSlug]))[0];
 const editorialQuestions = await getQuestionsBySlugs(homeConfig.data.editorialPicks.map((item) => item.slug));
 const editorialPicks = editorialQuestions.map((question, index) => ({
@@ -90,6 +116,6 @@ const proverbs = [
   editorialPicks={editorialPicks}
   communities={communities}
   proverbs={proverbs}
-  currentPage={1}
+  currentPage={pageNumber}
   totalPages={totalPages}
 />

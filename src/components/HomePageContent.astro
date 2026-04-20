@@ -1,0 +1,303 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from './Header.astro';
+import SectionHeading from './SectionHeading.astro';
+
+interface EditorialPick {
+  label: string;
+  title: string;
+  href: string;
+}
+
+interface Community {
+  name: string;
+  description: string;
+  members: string;
+}
+
+interface Proverb {
+  text: string;
+  note: string;
+}
+
+interface Props {
+  featuredQuestions: CollectionEntry<'questions'>[];
+  pageQuestions: CollectionEntry<'questions'>[];
+  heroFeatured: CollectionEntry<'questions'>;
+  editorialPicks: EditorialPick[];
+  communities: Community[];
+  proverbs: Proverb[];
+  currentPage: number;
+  totalPages: number;
+}
+
+const {
+  featuredQuestions,
+  pageQuestions,
+  heroFeatured,
+  editorialPicks,
+  communities,
+  proverbs,
+  currentPage,
+  totalPages,
+} = Astro.props;
+
+const pageLink = (page: number) => (page === 1 ? '/' : `/page/${page}/`);
+const previousPage = currentPage > 1 ? pageLink(currentPage - 1) : null;
+const nextPage = currentPage < totalPages ? pageLink(currentPage + 1) : null;
+const paginationPages = Array.from({ length: totalPages }, (_, index) => ({
+  number: index + 1,
+  href: pageLink(index + 1),
+  isActive: index + 1 === currentPage,
+}));
+---
+
+<BaseLayout
+  title="Sinwjim | منصة عربية للأسئلة والإجابات"
+  description="نسخة MVP من منصة عربية للأسئلة والإجابات مستوحاة من Zhihu وQuora مع دعم كامل للعربية والموبايل."
+>
+  <div class="page-shell" id="top">
+    <Header />
+
+    <main>
+      <section class="hero-section">
+        <div class="hero-copy">
+          <div class="hero-kicker-row">
+            <p class="eyebrow">افتتاحية المنصة</p>
+            <span class="hero-bulletin">عدد تجريبي - ربيع 2026</span>
+          </div>
+          <h1>مساحة عربية للأسئلة الذكية والإجابات التي تستحق أن تُحفَظ.</h1>
+          <p class="hero-text">
+            Sinwjim يجمع بين سرعة التصفح التي يحبها القراء ونَفَسٍ تحريري يفضّل الفكرة
+            الواضحة، والسياق، والأصوات التي تكتب لتُفهَم لا لتُستهلك سريعاً.
+          </p>
+
+          <div class="hero-actions">
+            <a class="cta-button" href="#feed">استكشف الإجابات</a>
+            <a class="ghost-button" href="#spaces">استكشف المجتمعات</a>
+          </div>
+
+          <div class="hero-note">
+            <strong>ماذا نعدك؟</strong>
+            <p>
+              أسئلة أقل ضجيجاً، إجابات أكثر عمقاً، وتجربة عربية واضحة على الهاتف
+              والكمبيوتر من اليوم الأول.
+            </p>
+          </div>
+
+          <div class="hero-stats" aria-label="Platform highlights">
+            <div>
+              <strong>+12k</strong>
+              <span>قارئ أسبوعي</span>
+            </div>
+            <div>
+              <strong>340</strong>
+              <span>إجابة معمقة</span>
+            </div>
+            <div>
+              <strong>27</strong>
+              <span>مجتمعاً متخصصاً</span>
+            </div>
+          </div>
+        </div>
+
+        <a class="hero-panel hero-panel--link" href={`/${heroFeatured.id}/`} aria-label="Featured discussion preview">
+          <div class="hero-panel__top">
+            <span>نقاش اليوم</span>
+            <span>يتصدر الآن</span>
+          </div>
+          <h2>{heroFeatured.data.title}</h2>
+          <p>{heroFeatured.data.excerpt}</p>
+          <div class="hero-panel__meta">
+            <span>{heroFeatured.data.answers} إجابة</span>
+            <span>{heroFeatured.data.stats[1]?.value} مشاهدة</span>
+            <span>قراءة مميزة</span>
+          </div>
+        </a>
+      </section>
+
+      <section class="content-grid" id="feed">
+        <div class="main-column">
+          <SectionHeading
+            title="إجابات مميزة في الصفحة الرئيسية"
+            subtitle="الخلاصة اليومية"
+          />
+
+          <p class="question-list__intro">
+            تبدأ الصفحة بثلاثة اختيارات ثابتة للواجهة، ثم تُعرض أحدث الإضافات في صفحات
+            متتابعة حتى تبقى القراءة خفيفة وواضحة مهما كبرت المكتبة.
+          </p>
+
+          <div class="question-list featured-list">
+            {featuredQuestions.map((question) => (
+              <article class="question-card">
+                <div class="question-card__meta">
+                  <span class="question-category">{question.data.category}</span>
+                  <span class="question-card__answers">{question.data.answers} إجابة</span>
+                </div>
+                <h3><a href={`/${question.id}/`}>{question.data.title}</a></h3>
+                <p>{question.data.excerpt}</p>
+                <div class="question-card__footer">
+                  <div class="question-card__author">
+                    <strong>{question.data.author}</strong>
+                    <span>{question.data.role}</span>
+                  </div>
+                  <div class="question-card__actions">
+                    <div class="vote-chip">{question.data.votes} تصويت</div>
+                    <a class="question-card__readmore" href={`/${question.id}/`}>اقرأ الإجابة</a>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <div class="question-feed-section">
+            <div class="question-feed-header">
+              <SectionHeading
+                title="أحدث الأسئلة في المنصة"
+                subtitle={`الصفحة ${currentPage} من ${totalPages}`}
+              />
+            </div>
+
+            <div class="question-list">
+              {pageQuestions.map((question) => (
+                <article class="question-card">
+                  <div class="question-card__meta">
+                    <span class="question-category">{question.data.category}</span>
+                    <span class="question-card__answers">{question.data.answers} إجابة</span>
+                  </div>
+                  <h3><a href={`/${question.id}/`}>{question.data.title}</a></h3>
+                  <p>{question.data.excerpt}</p>
+                  <div class="question-card__footer">
+                    <div class="question-card__author">
+                      <strong>{question.data.author}</strong>
+                      <span>{question.data.role}</span>
+                    </div>
+                    <div class="question-card__actions">
+                      <div class="vote-chip">{question.data.votes} تصويت</div>
+                      <a class="question-card__readmore" href={`/${question.id}/`}>اقرأ الإجابة</a>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            {totalPages > 1 && (
+              <nav class="pagination-nav" aria-label="تصفح صفحات الأسئلة">
+                <div class="pagination-summary">تصفح مزيداً من أحدث الإضافات</div>
+                <div class="pagination-links">
+                  {previousPage && (
+                    <a class="pagination-link pagination-link--ghost" href={previousPage}>الصفحة السابقة</a>
+                  )}
+                  <div class="pagination-pages">
+                    {paginationPages.map((page) => (
+                      <a
+                        class:list={{
+                          'pagination-link': true,
+                          'pagination-link--active': page.isActive,
+                        }}
+                        href={page.href}
+                        aria-current={page.isActive ? 'page' : undefined}
+                      >
+                        {page.number}
+                      </a>
+                    ))}
+                  </div>
+                  {nextPage && (
+                    <a class="pagination-link pagination-link--ghost" href={nextPage}>الصفحة التالية</a>
+                  )}
+                </div>
+              </nav>
+            )}
+          </div>
+        </div>
+
+        <aside class="sidebar-column">
+          <section class="sidebar-card editorial-card">
+            <p class="sidebar-card__eyebrow">مختارات التحرير</p>
+            <h3>ثلاث محطات سريعة لبدء القراءة اليوم</h3>
+            <div class="editorial-picks-list">
+              {editorialPicks.map((pick) => (
+                <a class="editorial-pick" href={pick.href}>
+                  <span class="editorial-pick__label">{pick.label}</span>
+                  <strong>{pick.title}</strong>
+                </a>
+              ))}
+            </div>
+          </section>
+
+          <section class="sidebar-card" id="spaces">
+            <SectionHeading
+              title="مجتمعات نشطة"
+              subtitle="مساحات متخصصة"
+              accent="gold"
+            />
+            <div class="community-list">
+              {communities.map((community) => (
+                <article class="community-item">
+                  <div>
+                    <h3>{community.name}</h3>
+                    <p>{community.description}</p>
+                  </div>
+                  <span>{community.members}</span>
+                </article>
+              ))}
+            </div>
+          </section>
+        </aside>
+      </section>
+
+      <section class="proverbs-section" id="voices" data-proverbs-section>
+        <SectionHeading
+          title="أمثال عربية"
+          subtitle="حكمة متجددة"
+          accent="rose"
+        />
+        <div class="proverbs-grid" data-proverbs-grid>
+          {proverbs.map((proverb, index) => (
+            <article class="proverb-card" data-proverb-card data-group={Math.floor(index / 3)}>
+              <span class="proverb-badge">مثل مأثور</span>
+              <h3>{proverb.text}</h3>
+              <p class="proverb-note">{proverb.note}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <script is:inline>
+        (() => {
+          const section = document.querySelector('[data-proverbs-section]');
+          if (!section) return;
+
+          const cards = Array.from(section.querySelectorAll('[data-proverb-card]'));
+          if (cards.length === 0) return;
+
+          const totalGroups = cards.reduce((max, card) => {
+            const group = Number(card.getAttribute('data-group') || '0');
+            return Math.max(max, group);
+          }, 0) + 1;
+
+          let activeGroup = 0;
+
+          const renderGroup = () => {
+            cards.forEach((card) => {
+              const group = Number(card.getAttribute('data-group') || '0');
+              const isActive = group === activeGroup;
+              card.toggleAttribute('hidden', !isActive);
+            });
+          };
+
+          renderGroup();
+
+          if (totalGroups > 1) {
+            window.setInterval(() => {
+              activeGroup = (activeGroup + 1) % totalGroups;
+              renderGroup();
+            }, 10000);
+          }
+        })();
+      </script>
+    </main>
+  </div>
+</BaseLayout>
