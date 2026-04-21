@@ -30,6 +30,11 @@ interface Props {
   proverbs: Proverb[];
   currentPage: number;
   totalPages: number;
+  pageTitle?: string;
+  pageDescription?: string;
+  canonical?: string;
+  prevUrl?: string;
+  nextUrl?: string;
 }
 
 const {
@@ -41,6 +46,11 @@ const {
   proverbs,
   currentPage,
   totalPages,
+  pageTitle = 'Sinwjim | منصة عربية للأسئلة والإجابات',
+  pageDescription = 'نسخة MVP من منصة عربية للأسئلة والإجابات مستوحاة من Zhihu وQuora مع دعم كامل للعربية والموبايل.',
+  canonical,
+  prevUrl,
+  nextUrl,
 } = Astro.props;
 
 const pageLink = (page: number) => (page === 1 ? '/' : `/page/${page}/`);
@@ -54,8 +64,11 @@ const paginationPages = Array.from({ length: totalPages }, (_, index) => ({
 ---
 
 <BaseLayout
-  title="Sinwjim | منصة عربية للأسئلة والإجابات"
-  description="نسخة MVP من منصة عربية للأسئلة والإجابات مستوحاة من Zhihu وQuora مع دعم كامل للعربية والموبايل."
+  title={pageTitle}
+  description={pageDescription}
+  canonical={canonical}
+  prevUrl={prevUrl}
+  nextUrl={nextUrl}
 >
   <div class="page-shell" id="top">
     <Header />

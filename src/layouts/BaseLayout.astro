@@ -5,11 +5,17 @@ import '../styles/question-detail.css';
 interface Props {
   title?: string;
   description?: string;
+  canonical?: string;
+  prevUrl?: string;
+  nextUrl?: string;
 }
 
 const {
   title = 'Sinwjim | منصة عربية للأسئلة والمعرفة',
-  description = 'منصة عربية مستوحاة من Zhihu وQuora لمشاركة المعرفة والإجابات العميقة.'
+  description = 'منصة عربية مستوحاة من Zhihu وQuora لمشاركة المعرفة والإجابات العميقة.',
+  canonical,
+  prevUrl,
+  nextUrl,
 } = Astro.props;
 ---
 
@@ -21,6 +27,9 @@ const {
     <meta name="description" content={description} />
     <meta name="theme-color" content="#2e2c76" />
     <meta name="generator" content={Astro.generator} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    {prevUrl && <link rel="prev" href={prevUrl} />}
+    {nextUrl && <link rel="next" href={nextUrl} />}
     <link rel="icon" type="image/x-icon" href="/sinwjim.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

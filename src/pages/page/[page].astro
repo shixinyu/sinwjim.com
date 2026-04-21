@@ -43,6 +43,11 @@ if (pageNumber > totalPages) {
 
 const startIndex = (pageNumber - 1) * PAGE_SIZE;
 const pageQuestions = nonFeaturedQuestions.slice(startIndex, startIndex + PAGE_SIZE);
+const canonical = `https://sinwjim.com/page/${pageNumber}/`;
+const prevUrl = pageNumber === 2 ? 'https://sinwjim.com/' : `https://sinwjim.com/page/${pageNumber - 1}/`;
+const nextUrl = pageNumber < totalPages ? `https://sinwjim.com/page/${pageNumber + 1}/` : undefined;
+const pageTitle = `Sinwjim | منصة عربية للأسئلة والإجابات - الصفحة ${pageNumber}`;
+const pageDescription = `تابع أحدث الأسئلة والإجابات في Sinwjim من خلال الصفحة ${pageNumber} مع إبقاء الواجهة الرئيسية خفيفة وسهلة التصفح.`;
 const heroFeatured = (await getQuestionsBySlugs([homeConfig.data.heroFeaturedSlug]))[0];
 const editorialQuestions = await getQuestionsBySlugs(homeConfig.data.editorialPicks.map((item) => item.slug));
 const editorialPicks = editorialQuestions.map((question, index) => ({
@@ -118,4 +123,9 @@ const proverbs = [
   proverbs={proverbs}
   currentPage={pageNumber}
   totalPages={totalPages}
+  pageTitle={pageTitle}
+  pageDescription={pageDescription}
+  canonical={canonical}
+  prevUrl={prevUrl}
+  nextUrl={nextUrl}
 />
