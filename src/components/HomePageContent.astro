@@ -56,11 +56,30 @@ const {
 const pageLink = (page: number) => (page === 1 ? '/' : `/page/${page}/`);
 const previousPage = currentPage > 1 ? pageLink(currentPage - 1) : null;
 const nextPage = currentPage < totalPages ? pageLink(currentPage + 1) : null;
-const paginationPages = Array.from({ length: totalPages }, (_, index) => ({
-  number: index + 1,
-  href: pageLink(index + 1),
-  isActive: index + 1 === currentPage,
-}));
+const pageWindow = new Set<number>([1, totalPages, currentPage - 1, currentPage, currentPage + 1]);
+const visiblePages = Array.from(pageWindow)
+  .filter((page) => page >= 1 && page <= totalPages)
+  .sort((a, b) => a - b);
+const paginationItems = visiblePages.flatMap((page, index) => {
+  const previousVisiblePage = visiblePages[index - 1];
+  const items: Array<
+    | { type: 'page'; number: number; href: string; isActive: boolean }
+    | { type: 'ellipsis'; key: string }
+  > = [];
+
+  if (previousVisiblePage && page - previousVisiblePage > 1) {
+    items.push({ type: 'ellipsis', key: `ellipsis-${previousVisiblePage}-${page}` });
+  }
+
+  items.push({
+    type: 'page',
+    number: page,
+    href: pageLink(page),
+    isActive: page === currentPage,
+  });
+
+  return items;
+});
 ---
 
 <BaseLayout
@@ -204,17 +223,21 @@ const paginationPages = Array.from({ length: totalPages }, (_, index) => ({
                     <a class="pagination-link pagination-link--ghost" href={previousPage}>الصفحة السابقة</a>
                   )}
                   <div class="pagination-pages">
-                    {paginationPages.map((page) => (
-                      <a
-                        class:list={{
-                          'pagination-link': true,
-                          'pagination-link--active': page.isActive,
-                        }}
-                        href={page.href}
-                        aria-current={page.isActive ? 'page' : undefined}
-                      >
-                        {page.number}
-                      </a>
+                    {paginationItems.map((item) => (
+                      item.type === 'page' ? (
+                        <a
+                          class:list={{
+                            'pagination-link': true,
+                            'pagination-link--active': item.isActive,
+                          }}
+                          href={item.href}
+                          aria-current={item.isActive ? 'page' : undefined}
+                        >
+                          {item.number}
+                        </a>
+                      ) : (
+                        <span class="pagination-ellipsis" aria-hidden="true">...</span>
+                      )
                     ))}
                   </div>
                   {nextPage && (

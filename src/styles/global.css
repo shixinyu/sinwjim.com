@@ -549,15 +549,20 @@ main {
 }
 
 .pagination-links {
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
 }
 
 .pagination-pages {
-  grid-auto-flow: column;
-  grid-auto-columns: minmax(42px, auto);
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   gap: 0.65rem;
+  flex: 1 1 320px;
 }
 
 .pagination-link {
@@ -565,6 +570,7 @@ main {
   align-items: center;
   justify-content: center;
   min-height: 42px;
+  min-width: 42px;
   padding: 0.65rem 0.9rem;
   border: 1px solid rgba(76, 61, 137, 0.16);
   border-radius: 999px;
@@ -573,6 +579,16 @@ main {
   font-size: 0.92rem;
   font-weight: 700;
   transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, color 180ms ease;
+}
+
+.pagination-ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 42px;
+  min-height: 42px;
+  color: var(--text-soft);
+  font-weight: 700;
 }
 
 .pagination-link:hover,
@@ -1024,17 +1040,16 @@ main {
     flex-direction: column;
   }
 
-  .pagination-links,
-  .pagination-pages {
-    grid-auto-flow: row;
-    grid-auto-columns: unset;
+  .pagination-links {
+    flex-direction: column;
+    align-items: stretch;
   }
 
   .pagination-pages {
-    grid-template-columns: repeat(auto-fit, minmax(42px, 1fr));
+    justify-content: center;
+    flex-basis: auto;
   }
 
-  .pagination-link,
   .pagination-link--ghost {
     width: 100%;
   }
