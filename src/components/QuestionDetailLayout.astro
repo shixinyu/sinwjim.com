@@ -38,6 +38,7 @@ const whyNowText =
 const topics = question.data.topics;
 const answerTitle = question.data.answerTitle ?? 'إجابة منشورة';
 const summary = question.data.summary;
+const isLiveClockQuestion = question.id === '2-كم-الساعة-الآن';
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription}>
@@ -58,6 +59,38 @@ const summary = question.data.summary;
               <figure class="question-hero__figure">
                 <img src={coverImage} alt={coverImageAlt} loading="eager" />
               </figure>
+            )
+          }
+          {
+            isLiveClockQuestion && (
+              <section class="live-clock-card" aria-label="الوقت الحالي" data-live-clock>
+                <div class="live-clock-card__copy">
+                  <p class="live-clock-card__eyebrow">الوقت الآن</p>
+                  <h2>ساعة حية بحسب توقيت متصفحك</h2>
+                  <p>تتحدث هذه الساعة مباشرة اعتماداً على الوقت المحلي الحالي في متصفحك والمنطقة الزمنية المضبوطة على جهازك.</p>
+                </div>
+                <div class="live-clock-card__display" aria-live="polite">
+                  <div class="live-clock-card__digital">
+                    <span class="live-clock-card__time" data-clock-time>--:--:--</span>
+                    <span class="live-clock-card__meridiem" data-clock-meridiem>--</span>
+                  </div>
+                  <div class="live-clock-card__meta">
+                    <span data-clock-date>جاري تحديد التاريخ...</span>
+                    <span data-clock-zone>جاري تحديد المنطقة الزمنية...</span>
+                  </div>
+                </div>
+                <div class="live-clock-face" aria-hidden="true">
+                  <div class="live-clock-face__ring"></div>
+                  <div class="live-clock-face__marker live-clock-face__marker--12"></div>
+                  <div class="live-clock-face__marker live-clock-face__marker--3"></div>
+                  <div class="live-clock-face__marker live-clock-face__marker--6"></div>
+                  <div class="live-clock-face__marker live-clock-face__marker--9"></div>
+                  <div class="live-clock-face__hand live-clock-face__hand--hour" data-clock-hour-hand></div>
+                  <div class="live-clock-face__hand live-clock-face__hand--minute" data-clock-minute-hand></div>
+                  <div class="live-clock-face__hand live-clock-face__hand--second" data-clock-second-hand></div>
+                  <div class="live-clock-face__center"></div>
+                </div>
+              </section>
             )
           }
           <div class="question-hero__stats" aria-label="Question activity">
@@ -144,4 +177,65 @@ const summary = question.data.summary;
       }
     </main>
   </div>
+
+  {
+    isLiveClockQuestion && (
+      <script is:inline>
+        (() => {
+          const root = document.querySelector('[data-live-clock]');
+          if (!root) return;
+
+          const timeEl = root.querySelector('[data-clock-time]');
+          const meridiemEl = root.querySelector('[data-clock-meridiem]');
+          const dateEl = root.querySelector('[data-clock-date]');
+          const zoneEl = root.querySelector('[data-clock-zone]');
+          const hourHand = root.querySelector('[data-clock-hour-hand]');
+          const minuteHand = root.querySelector('[data-clock-minute-hand]');
+          const secondHand = root.querySelector('[data-clock-second-hand]');
+
+          const timeFormatter = new Intl.DateTimeFormat('ar', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: true
+          });
+
+          const dateFormatter = new Intl.DateTimeFormat('ar', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          });
+
+          const updateClock = () => {
+            const now = new Date();
+            const parts = timeFormatter.formatToParts(now);
+            const timeValue = parts
+              .filter((part) => part.type === 'hour' || part.type === 'minute' || part.type === 'second' || part.type === 'literal')
+              .map((part) => part.value)
+              .join('')
+              .trim();
+            const dayPeriod = parts.find((part) => part.type === 'dayPeriod')?.value ?? '';
+            const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+            if (timeEl) timeEl.textContent = timeValue;
+            if (meridiemEl) meridiemEl.textContent = dayPeriod;
+            if (dateEl) dateEl.textContent = dateFormatter.format(now);
+            if (zoneEl) zoneEl.textContent = `المنطقة الزمنية: ${timeZone}`;
+
+            const seconds = now.getSeconds() + now.getMilliseconds() / 1000;
+            const minutes = now.getMinutes() + seconds / 60;
+            const hours = (now.getHours() % 12) + minutes / 60;
+
+            if (hourHand) hourHand.style.setProperty('--rotation', `${hours * 30}deg`);
+            if (minuteHand) minuteHand.style.setProperty('--rotation', `${minutes * 6}deg`);
+            if (secondHand) secondHand.style.setProperty('--rotation', `${seconds * 6}deg`);
+          };
+
+          updateClock();
+          window.setInterval(updateClock, 1000);
+        })();
+      </script>
+    )
+  }
 </BaseLayout>

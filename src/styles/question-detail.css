@@ -314,9 +314,174 @@
   color: var(--text);
 }
 
+.live-clock-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(260px, 0.95fr);
+  gap: 1.4rem;
+  align-items: center;
+  margin-top: 1.35rem;
+  padding: 1.5rem;
+  border: 1px solid rgba(76, 61, 137, 0.12);
+  border-radius: 1.6rem;
+  background:
+    radial-gradient(circle at top right, rgba(255, 208, 157, 0.28), transparent 30%),
+    radial-gradient(circle at bottom left, rgba(116, 96, 191, 0.18), transparent 34%),
+    linear-gradient(135deg, rgba(252, 249, 255, 0.95), rgba(243, 247, 255, 0.92));
+}
+
+.live-clock-card__copy {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.live-clock-card__eyebrow {
+  margin: 0;
+  color: var(--text-soft);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.live-clock-card__copy h2 {
+  margin: 0;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  line-height: 1.25;
+  color: var(--primary-strong);
+}
+
+.live-clock-card__copy p {
+  margin: 0;
+  max-width: 34ch;
+  color: var(--text-soft);
+  line-height: 1.9;
+}
+
+.live-clock-card__display {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.live-clock-card__digital {
+  display: flex;
+  align-items: end;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.live-clock-card__time {
+  font-family: 'Space Grotesk', 'Noto Sans Arabic', sans-serif;
+  font-size: clamp(2.7rem, 6vw, 5rem);
+  font-weight: 700;
+  line-height: 0.95;
+  color: var(--primary-strong);
+}
+
+.live-clock-card__meridiem {
+  padding-bottom: 0.5rem;
+  color: var(--secondary);
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.live-clock-card__meta {
+  display: grid;
+  gap: 0.28rem;
+  color: var(--text-soft);
+  font-size: 0.95rem;
+}
+
+.live-clock-face {
+  position: relative;
+  width: min(100%, 280px);
+  aspect-ratio: 1;
+  justify-self: center;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.95), rgba(243, 238, 255, 0.92) 45%, rgba(223, 232, 255, 0.94) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 22px 48px rgba(51, 35, 101, 0.16);
+}
+
+.live-clock-face__ring {
+  position: absolute;
+  inset: 14px;
+  border: 1px solid rgba(76, 61, 137, 0.14);
+  border-radius: 50%;
+}
+
+.live-clock-face__marker {
+  position: absolute;
+  left: 50%;
+  top: 16px;
+  width: 6px;
+  height: 22px;
+  border-radius: 999px;
+  background: rgba(59, 43, 116, 0.72);
+  transform-origin: center calc(124px - 16px);
+  translate: -50% 0;
+}
+
+.live-clock-face__marker--3 {
+  transform: rotate(90deg);
+}
+
+.live-clock-face__marker--6 {
+  transform: rotate(180deg);
+}
+
+.live-clock-face__marker--9 {
+  transform: rotate(270deg);
+}
+
+.live-clock-face__hand {
+  --rotation: 0deg;
+  position: absolute;
+  left: 50%;
+  bottom: 50%;
+  width: 8px;
+  border-radius: 999px;
+  background: var(--primary-strong);
+  transform-origin: center bottom;
+  transform: translateX(-50%) rotate(var(--rotation));
+  box-shadow: 0 8px 20px rgba(46, 33, 93, 0.16);
+}
+
+.live-clock-face__hand--hour {
+  height: 62px;
+  background: linear-gradient(180deg, #2e215d, #5f4daf);
+}
+
+.live-clock-face__hand--minute {
+  height: 92px;
+  width: 6px;
+  background: linear-gradient(180deg, #3b2b74, #8169d2);
+}
+
+.live-clock-face__hand--second {
+  height: 106px;
+  width: 3px;
+  background: linear-gradient(180deg, #d59d4e, #f3c476);
+}
+
+.live-clock-face__center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  border: 4px solid rgba(255, 255, 255, 0.92);
+  border-radius: 50%;
+  background: var(--accent);
+  transform: translate(-50%, -50%);
+  box-shadow: 0 10px 24px rgba(213, 157, 78, 0.28);
+}
+
 @media (max-width: 1080px) {
   .question-hero,
-  .question-detail-grid {
+  .question-detail-grid,
+  .live-clock-card {
     grid-template-columns: 1fr;
   }
 
@@ -335,7 +500,8 @@
   .question-hero__main,
   .question-sidebar-card,
   .answer-card,
-  .related-question-card {
+  .related-question-card,
+  .live-clock-card {
     padding: 1.25rem;
     border-radius: 24px;
   }
@@ -361,5 +527,13 @@
 
   .related-questions-grid {
     grid-template-columns: 1fr;
+  }
+
+  .live-clock-card__time {
+    font-size: clamp(2.35rem, 13vw, 3.6rem);
+  }
+
+  .live-clock-face {
+    width: min(100%, 240px);
   }
 }
