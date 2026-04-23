@@ -1,0 +1,64 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Boiled egg cover illustration</title>
+  <desc id="desc">Warm kitchen-style illustration showing a boiled egg cut in half with a golden yolk and soft steam.</desc>
+  <defs>
+    <linearGradient id="bg" x1="120" y1="100" x2="1480" y2="820" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF7E8"/>
+      <stop offset="0.52" stop-color="#F4DDB4"/>
+      <stop offset="1" stop-color="#D98F47"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1180 188) rotate(136) scale(540 430)">
+      <stop stop-color="#FFFDF6" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#FFFDF6" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="shadow" x="0" y="0" width="1600" height="900" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="20" stdDeviation="26" flood-color="#8F5A2B" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="900" rx="36" fill="url(#bg)"/>
+  <rect width="1600" height="900" rx="36" fill="url(#glow)"/>
+
+  <g opacity="0.18">
+    <circle cx="246" cy="168" r="5" fill="#8F5A2B"/>
+    <circle cx="378" cy="122" r="4" fill="#8F5A2B"/>
+    <circle cx="1380" cy="156" r="6" fill="#8F5A2B"/>
+    <path d="M246 168L378 122L564 194L784 148L1046 214L1380 156" stroke="#8F5A2B" stroke-width="2" stroke-dasharray="7 11"/>
+  </g>
+
+  <g>
+    <text x="126" y="164" font-family="Verdana, Geneva, sans-serif" font-size="48" font-weight="700" fill="#6D3C18">How long to boil an egg?</text>
+    <text x="126" y="222" font-family="Verdana, Geneva, sans-serif" font-size="28" fill="#93562A">Soft-boiled • Medium • Hard-boiled</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <ellipse cx="814" cy="714" rx="364" ry="60" fill="#B67337" fill-opacity="0.18"/>
+
+    <g transform="translate(520 250)">
+      <ellipse cx="178" cy="238" rx="146" ry="182" fill="#FFF9F2"/>
+      <path d="M178 56C257 56 321 136 321 238C321 340 257 420 178 420C99 420 35 340 35 238C35 136 99 56 178 56Z" stroke="#F1DDCB" stroke-width="14"/>
+      <circle cx="178" cy="246" r="74" fill="#F3BC3B"/>
+      <circle cx="178" cy="246" r="44" fill="#F7D36E" fill-opacity="0.65"/>
+      <path d="M48 182C92 166 126 172 158 192" stroke="#FFFDF8" stroke-width="10" stroke-linecap="round" opacity="0.75"/>
+    </g>
+
+    <g transform="translate(782 226)">
+      <path d="M177 50C270 50 344 138 344 248C344 357 270 446 177 446C84 446 10 357 10 248C10 138 84 50 177 50Z" fill="#FFF9F2"/>
+      <path d="M177 50C270 50 344 138 344 248C344 357 270 446 177 446C84 446 10 357 10 248C10 138 84 50 177 50Z" stroke="#F1DDCB" stroke-width="14"/>
+      <circle cx="177" cy="258" r="92" fill="#E8A31E"/>
+      <circle cx="177" cy="258" r="54" fill="#F6CB60" fill-opacity="0.55"/>
+      <path d="M64 184C108 164 144 167 184 190" stroke="#FFFDF8" stroke-width="10" stroke-linecap="round" opacity="0.72"/>
+    </g>
+  </g>
+
+  <g opacity="0.78" stroke="#B97836" stroke-width="8" stroke-linecap="round">
+    <path d="M700 210C676 178 682 144 710 120"/>
+    <path d="M786 190C764 158 770 126 796 100"/>
+    <path d="M876 210C852 180 858 148 884 124"/>
+  </g>
+
+  <g>
+    <rect x="1108" y="610" width="278" height="88" rx="18" fill="#FFF9F1" fill-opacity="0.42" stroke="#C88741" stroke-opacity="0.24"/>
+    <text x="1150" y="666" font-family="Verdana, Geneva, sans-serif" font-size="34" font-weight="700" fill="#7B431B">6-10 minutes</text>
+  </g>
+</svg>
