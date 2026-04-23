@@ -400,6 +400,33 @@
   gap: 1rem;
 }
 
+.holiday-calendar-card__filters {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.holiday-calendar-card__filter {
+  display: grid;
+  gap: 0.45rem;
+  min-width: min(100%, 320px);
+}
+
+.holiday-calendar-card__filter span {
+  color: var(--text-soft);
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.holiday-calendar-card__filter select {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(76, 61, 137, 0.14);
+  border-radius: 0.95rem;
+  background: rgba(255, 255, 255, 0.82);
+  color: var(--text);
+  font: inherit;
+}
+
 .holiday-calendar-card__nav {
   width: 48px;
   height: 48px;
@@ -744,6 +771,10 @@
 
   .holiday-calendar-card__toolbar {
     flex-wrap: wrap;
+  }
+
+  .holiday-calendar-card__filter {
+    min-width: 100%;
   }
 
   .holiday-calendar-card__nav {
