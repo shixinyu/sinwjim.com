@@ -3,6 +3,7 @@ import { render, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from './Header.astro';
 import { getQuestionsBySlugs } from '../data/content';
+import { middleEastReligiousHolidays } from '../data/middleEastReligiousHolidays';
 
 interface Props {
   question: CollectionEntry<'questions'>;
@@ -39,6 +40,8 @@ const topics = question.data.topics;
 const answerTitle = question.data.answerTitle ?? 'إجابة منشورة';
 const summary = question.data.summary;
 const isLiveClockQuestion = question.id === '2-كم-الساعة-الآن';
+const isHolidayQuestion = question.id === '7-ما-هو-العيد-اليوم';
+const holidayEntriesPayload = JSON.stringify(middleEastReligiousHolidays);
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription}>
@@ -89,6 +92,46 @@ const isLiveClockQuestion = question.id === '2-كم-الساعة-الآن';
                   <div class="live-clock-face__hand live-clock-face__hand--minute" data-clock-minute-hand></div>
                   <div class="live-clock-face__hand live-clock-face__hand--second" data-clock-second-hand></div>
                   <div class="live-clock-face__center"></div>
+                </div>
+              </section>
+            )
+          }
+          {
+            isHolidayQuestion && (
+              <section class="holiday-calendar-card" aria-label="تقويم الأعياد الدينية" data-holiday-calendar>
+                <div class="holiday-calendar-card__header">
+                  <div>
+                    <p class="holiday-calendar-card__eyebrow">تقويم الأعياد</p>
+                    <h2>ما هو العيد اليوم؟</h2>
+                    <p>يعرض هذا التقويم الشهر الحالي بحسب تاريخ متصفحك، مع إبراز أبرز الأعياد الدينية الشائعة في دول الشرق الأوسط.</p>
+                  </div>
+                  <div class="holiday-calendar-card__today" data-holiday-today>
+                    <strong data-holiday-today-label>جاري التحقق من عيد اليوم...</strong>
+                    <span data-holiday-today-meta>سيظهر هنا اسم المناسبة والدول المرتبطة بها عند توفرها.</span>
+                  </div>
+                </div>
+                <div class="holiday-calendar-card__toolbar">
+                  <button type="button" class="holiday-calendar-card__nav" data-holiday-prev aria-label="الشهر السابق">&#8592;</button>
+                  <div class="holiday-calendar-card__month">
+                    <strong data-holiday-month-label>الشهر الحالي</strong>
+                    <span>بحسب تاريخ المتصفح</span>
+                  </div>
+                  <button type="button" class="holiday-calendar-card__nav" data-holiday-next aria-label="الشهر التالي">&#8594;</button>
+                </div>
+                <div class="holiday-calendar-card__weekdays" aria-hidden="true">
+                  <span>الأحد</span>
+                  <span>الاثنين</span>
+                  <span>الثلاثاء</span>
+                  <span>الأربعاء</span>
+                  <span>الخميس</span>
+                  <span>الجمعة</span>
+                  <span>السبت</span>
+                </div>
+                <div class="holiday-calendar-card__grid" data-holiday-grid></div>
+                <div class="holiday-calendar-card__legend">
+                  <span><i class="holiday-calendar-card__dot holiday-calendar-card__dot--today"></i> اليوم الحالي</span>
+                  <span><i class="holiday-calendar-card__dot holiday-calendar-card__dot--islamic"></i> مناسبة إسلامية</span>
+                  <span><i class="holiday-calendar-card__dot holiday-calendar-card__dot--christian"></i> مناسبة مسيحية</span>
                 </div>
               </section>
             )
@@ -179,61 +222,174 @@ const isLiveClockQuestion = question.id === '2-كم-الساعة-الآن';
   </div>
 
   {
-    isLiveClockQuestion && (
-      <script is:inline>
+    (isLiveClockQuestion || isHolidayQuestion) && (
+      <script is:inline define:vars={{ holidayEntriesPayload }}>
         (() => {
-          const root = document.querySelector('[data-live-clock]');
-          if (!root) return;
+          const liveClockRoot = document.querySelector('[data-live-clock]');
+          if (liveClockRoot) {
+            const timeEl = liveClockRoot.querySelector('[data-clock-time]');
+            const meridiemEl = liveClockRoot.querySelector('[data-clock-meridiem]');
+            const dateEl = liveClockRoot.querySelector('[data-clock-date]');
+            const zoneEl = liveClockRoot.querySelector('[data-clock-zone]');
+            const hourHand = liveClockRoot.querySelector('[data-clock-hour-hand]');
+            const minuteHand = liveClockRoot.querySelector('[data-clock-minute-hand]');
+            const secondHand = liveClockRoot.querySelector('[data-clock-second-hand]');
 
-          const timeEl = root.querySelector('[data-clock-time]');
-          const meridiemEl = root.querySelector('[data-clock-meridiem]');
-          const dateEl = root.querySelector('[data-clock-date]');
-          const zoneEl = root.querySelector('[data-clock-zone]');
-          const hourHand = root.querySelector('[data-clock-hour-hand]');
-          const minuteHand = root.querySelector('[data-clock-minute-hand]');
-          const secondHand = root.querySelector('[data-clock-second-hand]');
+            const timeFormatter = new Intl.DateTimeFormat('ar', {
+              hour: '2-digit',
+              minute: '2-digit',
+              second: '2-digit',
+              hour12: true
+            });
 
-          const timeFormatter = new Intl.DateTimeFormat('ar', {
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: true
-          });
+            const dateFormatter = new Intl.DateTimeFormat('ar', {
+              weekday: 'long',
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            });
 
-          const dateFormatter = new Intl.DateTimeFormat('ar', {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-          });
+            const updateClock = () => {
+              const now = new Date();
+              const parts = timeFormatter.formatToParts(now);
+              const timeValue = parts
+                .filter((part) => part.type === 'hour' || part.type === 'minute' || part.type === 'second' || part.type === 'literal')
+                .map((part) => part.value)
+                .join('')
+                .trim();
+              const dayPeriod = parts.find((part) => part.type === 'dayPeriod')?.value ?? '';
+              const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-          const updateClock = () => {
-            const now = new Date();
-            const parts = timeFormatter.formatToParts(now);
-            const timeValue = parts
-              .filter((part) => part.type === 'hour' || part.type === 'minute' || part.type === 'second' || part.type === 'literal')
-              .map((part) => part.value)
-              .join('')
-              .trim();
-            const dayPeriod = parts.find((part) => part.type === 'dayPeriod')?.value ?? '';
-            const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+              if (timeEl) timeEl.textContent = timeValue;
+              if (meridiemEl) meridiemEl.textContent = dayPeriod;
+              if (dateEl) dateEl.textContent = dateFormatter.format(now);
+              if (zoneEl) zoneEl.textContent = `المنطقة الزمنية: ${timeZone}`;
 
-            if (timeEl) timeEl.textContent = timeValue;
-            if (meridiemEl) meridiemEl.textContent = dayPeriod;
-            if (dateEl) dateEl.textContent = dateFormatter.format(now);
-            if (zoneEl) zoneEl.textContent = `المنطقة الزمنية: ${timeZone}`;
+              const seconds = now.getSeconds() + now.getMilliseconds() / 1000;
+              const minutes = now.getMinutes() + seconds / 60;
+              const hours = (now.getHours() % 12) + minutes / 60;
 
-            const seconds = now.getSeconds() + now.getMilliseconds() / 1000;
-            const minutes = now.getMinutes() + seconds / 60;
-            const hours = (now.getHours() % 12) + minutes / 60;
+              if (hourHand) hourHand.style.setProperty('--rotation', `${hours * 30}deg`);
+              if (minuteHand) minuteHand.style.setProperty('--rotation', `${minutes * 6}deg`);
+              if (secondHand) secondHand.style.setProperty('--rotation', `${seconds * 6}deg`);
+            };
 
-            if (hourHand) hourHand.style.setProperty('--rotation', `${hours * 30}deg`);
-            if (minuteHand) minuteHand.style.setProperty('--rotation', `${minutes * 6}deg`);
-            if (secondHand) secondHand.style.setProperty('--rotation', `${seconds * 6}deg`);
-          };
+            updateClock();
+            window.setInterval(updateClock, 1000);
+          }
 
-          updateClock();
-          window.setInterval(updateClock, 1000);
+          const calendarRoot = document.querySelector('[data-holiday-calendar]');
+          if (calendarRoot) {
+            const monthLabel = calendarRoot.querySelector('[data-holiday-month-label]');
+            const grid = calendarRoot.querySelector('[data-holiday-grid]');
+            const todayLabel = calendarRoot.querySelector('[data-holiday-today-label]');
+            const todayMeta = calendarRoot.querySelector('[data-holiday-today-meta]');
+            const prevButton = calendarRoot.querySelector('[data-holiday-prev]');
+            const nextButton = calendarRoot.querySelector('[data-holiday-next]');
+            const monthFormatter = new Intl.DateTimeFormat('ar', { month: 'long', year: 'numeric' });
+            const dayFormatter = new Intl.DateTimeFormat('ar', { day: 'numeric' });
+            const fullDateFormatter = new Intl.DateTimeFormat('ar', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            const holidays = JSON.parse(holidayEntriesPayload);
+            const today = new Date();
+            const todayKey = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+            let activeMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+
+            const groupByDate = new Map();
+            holidays.forEach((entry) => {
+              if (!groupByDate.has(entry.date)) {
+                groupByDate.set(entry.date, []);
+              }
+              groupByDate.get(entry.date).push(entry);
+            });
+
+            const updateTodayCard = () => {
+              const todayEntries = groupByDate.get(todayKey) ?? [];
+              if (!todayLabel || !todayMeta) return;
+              if (!todayEntries.length) {
+                todayLabel.textContent = 'لا يظهر عيد ديني مسجل في بيانات اليوم الحالي';
+                todayMeta.textContent = `تاريخ اليوم: ${fullDateFormatter.format(today)}`;
+                return;
+              }
+
+              todayLabel.textContent = todayEntries.map((entry) => entry.name).join(' • ');
+              todayMeta.textContent = todayEntries
+                .map((entry) => `${entry.countries.join('، ')}`)
+                .join(' | ');
+            };
+
+            const renderMonth = () => {
+              if (!grid || !monthLabel) return;
+              const year = activeMonth.getFullYear();
+              const month = activeMonth.getMonth();
+              const firstDay = new Date(year, month, 1);
+              const daysInMonth = new Date(year, month + 1, 0).getDate();
+              const leading = firstDay.getDay();
+              monthLabel.textContent = monthFormatter.format(activeMonth);
+              grid.innerHTML = '';
+
+              for (let i = 0; i < leading; i += 1) {
+                const filler = document.createElement('div');
+                filler.className = 'holiday-calendar-card__cell holiday-calendar-card__cell--empty';
+                grid.appendChild(filler);
+              }
+
+              for (let day = 1; day <= daysInMonth; day += 1) {
+                const date = new Date(year, month, day);
+                const key = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const dayEntries = groupByDate.get(key) ?? [];
+                const cell = document.createElement('article');
+                const traditions = [...new Set(dayEntries.map((entry) => entry.tradition))];
+                cell.className = 'holiday-calendar-card__cell';
+                if (key === todayKey) cell.classList.add('holiday-calendar-card__cell--today');
+                if (traditions.includes('islamic')) cell.classList.add('holiday-calendar-card__cell--islamic');
+                if (traditions.includes('christian')) cell.classList.add('holiday-calendar-card__cell--christian');
+
+                const dayNumber = document.createElement('strong');
+                dayNumber.className = 'holiday-calendar-card__day';
+                dayNumber.textContent = dayFormatter.format(date);
+                cell.appendChild(dayNumber);
+
+                if (dayEntries.length) {
+                  dayEntries.forEach((entry) => {
+                    const item = document.createElement('div');
+                    item.className = `holiday-calendar-card__event holiday-calendar-card__event--${entry.tradition}`;
+
+                    const title = document.createElement('span');
+                    title.className = 'holiday-calendar-card__event-name';
+                    title.textContent = entry.name;
+
+                    const meta = document.createElement('small');
+                    meta.className = 'holiday-calendar-card__event-meta';
+                    meta.textContent = entry.countries.join('، ');
+
+                    item.appendChild(title);
+                    item.appendChild(meta);
+                    cell.appendChild(item);
+                  });
+                } else {
+                  const empty = document.createElement('span');
+                  empty.className = 'holiday-calendar-card__empty-label';
+                  empty.textContent = '—';
+                  cell.appendChild(empty);
+                }
+
+                grid.appendChild(cell);
+              }
+            };
+
+            updateTodayCard();
+            renderMonth();
+
+            prevButton?.addEventListener('click', () => {
+              activeMonth = new Date(activeMonth.getFullYear(), activeMonth.getMonth() - 1, 1);
+              renderMonth();
+            });
+
+            nextButton?.addEventListener('click', () => {
+              activeMonth = new Date(activeMonth.getFullYear(), activeMonth.getMonth() + 1, 1);
+              renderMonth();
+            });
+          }
         })();
       </script>
     )

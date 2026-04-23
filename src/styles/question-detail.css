@@ -327,11 +327,10 @@
   color: var(--text);
 }
 
-.live-clock-card {
+.live-clock-card,
+.holiday-calendar-card {
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(260px, 0.95fr);
   gap: 1.4rem;
-  align-items: center;
   margin-top: 1.35rem;
   padding: 1.5rem;
   border: 1px solid rgba(76, 61, 137, 0.12);
@@ -340,6 +339,200 @@
     radial-gradient(circle at top right, rgba(255, 208, 157, 0.28), transparent 30%),
     radial-gradient(circle at bottom left, rgba(116, 96, 191, 0.18), transparent 34%),
     linear-gradient(135deg, rgba(252, 249, 255, 0.95), rgba(243, 247, 255, 0.92));
+}
+
+.live-clock-card {
+  grid-template-columns: minmax(0, 1.15fr) minmax(260px, 0.95fr);
+  align-items: center;
+}
+
+.holiday-calendar-card__header {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.holiday-calendar-card__eyebrow {
+  margin: 0 0 0.5rem;
+  color: var(--text-soft);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.holiday-calendar-card__header h2,
+.holiday-calendar-card__month strong {
+  margin: 0;
+  color: var(--primary-strong);
+}
+
+.holiday-calendar-card__header p,
+.holiday-calendar-card__month span,
+.holiday-calendar-card__today span,
+.holiday-calendar-card__event-meta,
+.holiday-calendar-card__empty-label {
+  margin: 0;
+  color: var(--text-soft);
+  line-height: 1.8;
+}
+
+.holiday-calendar-card__today {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid rgba(76, 61, 137, 0.12);
+  border-radius: 1.1rem;
+  background: rgba(255, 255, 255, 0.58);
+}
+
+.holiday-calendar-card__today strong {
+  color: var(--primary-strong);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.holiday-calendar-card__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.holiday-calendar-card__nav {
+  width: 48px;
+  height: 48px;
+  border: 1px solid rgba(76, 61, 137, 0.12);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.68);
+  color: var(--primary-strong);
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.holiday-calendar-card__month {
+  display: grid;
+  gap: 0.2rem;
+  justify-items: center;
+  text-align: center;
+}
+
+.holiday-calendar-card__weekdays,
+.holiday-calendar-card__grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.holiday-calendar-card__weekdays span {
+  text-align: center;
+  color: var(--text-soft);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.holiday-calendar-card__cell {
+  min-height: 146px;
+  padding: 0.9rem;
+  border: 1px solid rgba(76, 61, 137, 0.12);
+  border-radius: 1.1rem;
+  background: rgba(255, 255, 255, 0.7);
+  display: grid;
+  align-content: start;
+  gap: 0.5rem;
+}
+
+.holiday-calendar-card__cell--empty {
+  background: transparent;
+  border-style: dashed;
+  min-height: 0;
+}
+
+.holiday-calendar-card__cell--today {
+  box-shadow: inset 0 0 0 2px rgba(217, 157, 78, 0.42);
+}
+
+.holiday-calendar-card__cell--islamic {
+  background: linear-gradient(180deg, rgba(242, 249, 246, 0.95), rgba(255, 255, 255, 0.78));
+}
+
+.holiday-calendar-card__cell--christian {
+  background: linear-gradient(180deg, rgba(248, 243, 255, 0.95), rgba(255, 255, 255, 0.78));
+}
+
+.holiday-calendar-card__cell--islamic.holiday-calendar-card__cell--christian {
+  background: linear-gradient(180deg, rgba(244, 249, 245, 0.95), rgba(247, 243, 255, 0.85));
+}
+
+.holiday-calendar-card__day {
+  font-family: 'Space Grotesk', 'Noto Sans Arabic', sans-serif;
+  font-size: 1.15rem;
+  color: var(--primary-strong);
+}
+
+.holiday-calendar-card__event {
+  display: grid;
+  gap: 0.22rem;
+  padding: 0.5rem 0.65rem;
+  border-radius: 0.8rem;
+}
+
+.holiday-calendar-card__event--islamic {
+  background: rgba(89, 157, 103, 0.12);
+}
+
+.holiday-calendar-card__event--christian {
+  background: rgba(126, 99, 208, 0.12);
+}
+
+.holiday-calendar-card__event-name {
+  color: var(--text);
+  font-size: 0.88rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.holiday-calendar-card__event-meta {
+  font-size: 0.72rem;
+}
+
+.holiday-calendar-card__empty-label {
+  font-size: 1.1rem;
+  align-self: center;
+}
+
+.holiday-calendar-card__legend {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  color: var(--text-soft);
+  font-size: 0.84rem;
+}
+
+.holiday-calendar-card__legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.holiday-calendar-card__dot {
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 999px;
+  display: inline-block;
+}
+
+.holiday-calendar-card__dot--today {
+  background: #d59d4e;
+}
+
+.holiday-calendar-card__dot--islamic {
+  background: #69a26b;
+}
+
+.holiday-calendar-card__dot--christian {
+  background: #8e77dc;
 }
 
 .live-clock-card__copy {
@@ -497,7 +690,8 @@
 @media (max-width: 1080px) {
   .question-hero,
   .question-detail-grid,
-  .live-clock-card {
+  .live-clock-card,
+  .holiday-calendar-card__header {
     grid-template-columns: 1fr;
   }
 
@@ -517,7 +711,8 @@
   .question-sidebar-card,
   .answer-card,
   .related-question-card,
-  .live-clock-card {
+  .live-clock-card,
+  .holiday-calendar-card {
     padding: 1.25rem;
     border-radius: 24px;
   }
@@ -541,8 +736,24 @@
     align-items: stretch;
   }
 
-  .related-questions-grid {
+  .related-questions-grid,
+  .holiday-calendar-card__weekdays,
+  .holiday-calendar-card__grid {
     grid-template-columns: 1fr;
+  }
+
+  .holiday-calendar-card__toolbar {
+    flex-wrap: wrap;
+  }
+
+  .holiday-calendar-card__nav {
+    width: 44px;
+    height: 44px;
+  }
+
+  .holiday-calendar-card__cell,
+  .holiday-calendar-card__cell--empty {
+    min-height: auto;
   }
 
   .live-clock-card__digital {
