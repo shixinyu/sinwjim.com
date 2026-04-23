@@ -234,6 +234,19 @@
   line-height: 2;
 }
 
+.answer-body .video-embed {
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid rgba(76, 61, 137, 0.12);
+  border-radius: 1.5rem;
+  background: linear-gradient(180deg, rgba(20, 33, 48, 0.96), rgba(8, 14, 24, 0.98));
+  box-shadow: 0 20px 44px rgba(22, 23, 32, 0.14);
+}
+
+.answer-body .video-embed iframe {
+  display: block;
+}
+
 .answer-section--closing {
   padding-top: 0.4rem;
   border-top: 1px solid rgba(76, 61, 137, 0.12);
