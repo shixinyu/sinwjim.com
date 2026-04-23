@@ -1,0 +1,52 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">IP Address cover illustration</title>
+  <desc id="desc">Large at symbol with IP Address text and abstract network lines on a blue gradient background.</desc>
+  <defs>
+    <linearGradient id="bg" x1="120" y1="80" x2="1480" y2="820" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#081A3A"/>
+      <stop offset="0.5" stop-color="#0E3A7A"/>
+      <stop offset="1" stop-color="#12A4D9"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1180 210) rotate(137.5) scale(541.213 537.758)">
+      <stop stop-color="#8BE9FF" stop-opacity="0.6"/>
+      <stop offset="1" stop-color="#8BE9FF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="shadow" x="0" y="0" width="1600" height="900" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#00142E" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="900" rx="36" fill="url(#bg)"/>
+  <rect width="1600" height="900" rx="36" fill="url(#glow)"/>
+
+  <g opacity="0.2">
+    <circle cx="240" cy="170" r="6" fill="#DDF7FF"/>
+    <circle cx="420" cy="110" r="4" fill="#DDF7FF"/>
+    <circle cx="1340" cy="148" r="5" fill="#DDF7FF"/>
+    <circle cx="1260" cy="760" r="6" fill="#DDF7FF"/>
+    <circle cx="360" cy="720" r="5" fill="#DDF7FF"/>
+    <path d="M240 170L420 110L620 220L870 170L1090 270L1340 148" stroke="#DDF7FF" stroke-width="2" stroke-dasharray="8 12"/>
+    <path d="M360 720L590 620L810 700L1030 610L1260 760" stroke="#DDF7FF" stroke-width="2" stroke-dasharray="8 12"/>
+  </g>
+
+  <g filter="url(#shadow)">
+    <circle cx="780" cy="450" r="272" fill="#0C2248" fill-opacity="0.86" stroke="#8BE9FF" stroke-opacity="0.35" stroke-width="2"/>
+    <text x="780" y="545" text-anchor="middle" font-family="Verdana, Geneva, sans-serif" font-size="430" font-weight="700" fill="#E7FCFF">@</text>
+  </g>
+
+  <g>
+    <rect x="980" y="510" width="420" height="120" rx="22" fill="#EAFBFF" fill-opacity="0.12" stroke="#EAFBFF" stroke-opacity="0.22"/>
+    <text x="1025" y="585" font-family="Verdana, Geneva, sans-serif" font-size="54" font-weight="700" letter-spacing="3" fill="#F2FEFF">IP Address</text>
+  </g>
+
+  <g opacity="0.95">
+    <text x="132" y="170" font-family="Verdana, Geneva, sans-serif" font-size="44" font-weight="700" fill="#DDF7FF">Your connection on the web</text>
+    <text x="132" y="230" font-family="Verdana, Geneva, sans-serif" font-size="28" fill="#BFEFFF">Public IP • Network identity • Internet lookup</text>
+  </g>
+
+  <g opacity="0.24">
+    <text x="126" y="760" font-family="Courier New, monospace" font-size="38" fill="#DDF7FF">203.0.113.42</text>
+    <text x="126" y="808" font-family="Courier New, monospace" font-size="38" fill="#DDF7FF">198.51.100.17</text>
+    <text x="126" y="856" font-family="Courier New, monospace" font-size="38" fill="#DDF7FF">192.0.2.88</text>
+  </g>
+</svg>
