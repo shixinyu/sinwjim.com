@@ -1,0 +1,103 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">AI cover illustration</title>
+  <desc id="desc">A futuristic AI brain chip with neural lines, conversation bubbles, and machine learning labels on a warm-tech gradient background.</desc>
+  <defs>
+    <linearGradient id="bg" x1="90" y1="70" x2="1500" y2="840" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#081D2E"/>
+      <stop offset="0.46" stop-color="#153E5C"/>
+      <stop offset="1" stop-color="#E3A64F"/>
+    </linearGradient>
+    <radialGradient id="flare" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1260 190) rotate(133) scale(620 500)">
+      <stop stop-color="#F4D79F" stop-opacity="0.58"/>
+      <stop offset="1" stop-color="#F4D79F" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="chip" x1="548" y1="212" x2="1066" y2="706" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#11324F"/>
+      <stop offset="1" stop-color="#0A1B2B"/>
+    </linearGradient>
+    <linearGradient id="brain" x1="672" y1="250" x2="935" y2="580" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8F5EC"/>
+      <stop offset="1" stop-color="#D0EEFF"/>
+    </linearGradient>
+    <filter id="shadow" x="0" y="0" width="1600" height="900" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="18" stdDeviation="30" flood-color="#071420" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="900" rx="36" fill="url(#bg)"/>
+  <rect width="1600" height="900" rx="36" fill="url(#flare)"/>
+
+  <g opacity="0.18">
+    <circle cx="188" cy="162" r="5" fill="#FFF5DA"/>
+    <circle cx="312" cy="110" r="4" fill="#FFF5DA"/>
+    <circle cx="1380" cy="138" r="6" fill="#FFF5DA"/>
+    <circle cx="1290" cy="770" r="5" fill="#FFF5DA"/>
+    <circle cx="286" cy="728" r="5" fill="#FFF5DA"/>
+    <path d="M188 162L312 110L466 182L654 144L888 208L1116 154L1380 138" stroke="#FFF5DA" stroke-width="2" stroke-dasharray="7 11"/>
+    <path d="M286 728L474 646L702 740L920 658L1136 720L1290 770" stroke="#FFF5DA" stroke-width="2" stroke-dasharray="7 11"/>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="560" y="190" width="500" height="500" rx="44" fill="url(#chip)" stroke="#9ED7F2" stroke-opacity="0.22" stroke-width="2"/>
+    <rect x="612" y="242" width="396" height="396" rx="34" fill="#0E263B" stroke="#9ED7F2" stroke-opacity="0.18"/>
+
+    <g opacity="0.88">
+      <path d="M730 327C748 286 796 261 844 272C891 282 926 321 930 366C972 389 988 443 964 486C943 523 903 547 861 543C834 570 791 582 751 570C705 556 672 516 669 470C628 447 611 396 632 355C649 322 687 303 730 327Z" fill="url(#brain)"/>
+      <path d="M788 314C768 347 770 383 790 414" stroke="#143F60" stroke-width="10" stroke-linecap="round"/>
+      <path d="M848 304C822 341 820 393 844 438" stroke="#143F60" stroke-width="10" stroke-linecap="round"/>
+      <path d="M900 333C874 361 868 399 878 436" stroke="#143F60" stroke-width="10" stroke-linecap="round"/>
+      <path d="M728 404C761 388 801 390 836 406" stroke="#143F60" stroke-width="10" stroke-linecap="round"/>
+      <path d="M734 468C778 450 824 454 868 476" stroke="#143F60" stroke-width="10" stroke-linecap="round"/>
+      <path d="M804 520C839 508 876 511 909 528" stroke="#143F60" stroke-width="10" stroke-linecap="round"/>
+    </g>
+
+    <g stroke="#EAB65C" stroke-width="6" stroke-linecap="round">
+      <path d="M560 280H514"/>
+      <path d="M560 364H502"/>
+      <path d="M560 448H506"/>
+      <path d="M560 532H500"/>
+      <path d="M560 616H516"/>
+      <path d="M1060 280H1108"/>
+      <path d="M1060 364H1118"/>
+      <path d="M1060 448H1114"/>
+      <path d="M1060 532H1120"/>
+      <path d="M1060 616H1104"/>
+      <path d="M654 190V142"/>
+      <path d="M738 190V132"/>
+      <path d="M822 190V138"/>
+      <path d="M906 190V130"/>
+      <path d="M990 190V144"/>
+      <path d="M654 690V740"/>
+      <path d="M738 690V748"/>
+      <path d="M822 690V744"/>
+      <path d="M906 690V752"/>
+      <path d="M990 690V738"/>
+    </g>
+  </g>
+
+  <g>
+    <rect x="1028" y="476" width="386" height="110" rx="22" fill="#FFF8E6" fill-opacity="0.12" stroke="#FFF8E6" stroke-opacity="0.18"/>
+    <text x="1072" y="548" font-family="Verdana, Geneva, sans-serif" font-size="52" font-weight="700" letter-spacing="2" fill="#FFF8E6">Artificial Intelligence</text>
+  </g>
+
+  <g opacity="0.96">
+    <text x="120" y="160" font-family="Verdana, Geneva, sans-serif" font-size="48" font-weight="700" fill="#FFF4D8">From ML to chat, thinking, and on-device AI</text>
+    <text x="120" y="220" font-family="Verdana, Geneva, sans-serif" font-size="28" fill="#FFE5B1">Machine Learning • ChatGPT • Thinking Models • Gemini • Qwen</text>
+  </g>
+
+  <g>
+    <rect x="132" y="500" width="262" height="94" rx="18" fill="#0F2435" fill-opacity="0.66" stroke="#BFE6F7" stroke-opacity="0.16"/>
+    <text x="162" y="558" font-family="Verdana, Geneva, sans-serif" font-size="34" font-weight="700" fill="#EAF8FF">Machine Learning</text>
+
+    <rect x="170" y="618" width="204" height="84" rx="18" fill="#0F2435" fill-opacity="0.58" stroke="#BFE6F7" stroke-opacity="0.14"/>
+    <text x="205" y="672" font-family="Verdana, Geneva, sans-serif" font-size="30" font-weight="700" fill="#EAF8FF">Thinking Mode</text>
+
+    <path d="M394 548C470 520 534 468 584 420" stroke="#F5CC80" stroke-width="3" stroke-dasharray="7 10"/>
+    <path d="M374 661C470 642 546 586 616 530" stroke="#F5CC80" stroke-width="3" stroke-dasharray="7 10"/>
+  </g>
+
+  <g>
+    <rect x="1186" y="690" width="232" height="74" rx="18" fill="#FFF8E6" fill-opacity="0.12" stroke="#FFF8E6" stroke-opacity="0.18"/>
+    <text x="1232" y="739" font-family="Verdana, Geneva, sans-serif" font-size="30" font-weight="700" fill="#FFF8E6">On-device AI</text>
+  </g>
+</svg>
