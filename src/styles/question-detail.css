@@ -328,7 +328,8 @@
 }
 
 .live-clock-card,
-.holiday-calendar-card {
+.holiday-calendar-card,
+.model-hardware-card {
   display: grid;
   gap: 1.4rem;
   margin-top: 1.35rem;
@@ -346,14 +347,16 @@
   align-items: center;
 }
 
-.holiday-calendar-card__header {
+.holiday-calendar-card__header,
+.model-hardware-card__header {
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
   gap: 1rem;
   align-items: start;
 }
 
-.holiday-calendar-card__eyebrow {
+.holiday-calendar-card__eyebrow,
+.model-hardware-card__eyebrow {
   margin: 0 0 0.5rem;
   color: var(--text-soft);
   font-size: 0.8rem;
@@ -363,7 +366,8 @@
 }
 
 .holiday-calendar-card__header h2,
-.holiday-calendar-card__month strong {
+.holiday-calendar-card__month strong,
+.model-hardware-card__header h2 {
   margin: 0;
   color: var(--primary-strong);
 }
@@ -372,13 +376,22 @@
 .holiday-calendar-card__month span,
 .holiday-calendar-card__today span,
 .holiday-calendar-card__event-meta,
-.holiday-calendar-card__empty-label {
+.holiday-calendar-card__empty-label,
+.model-hardware-card__header p,
+.model-hardware-card__note span,
+.model-hardware-results__item p,
+.model-hardware-results__meta span,
+.model-hardware-results__placeholder,
+.model-hardware-results__empty {
   margin: 0;
   color: var(--text-soft);
   line-height: 1.8;
 }
 
-.holiday-calendar-card__today {
+.holiday-calendar-card__today,
+.model-hardware-card__note,
+.model-hardware-results__summary,
+.model-hardware-results__item {
   display: grid;
   gap: 0.35rem;
   padding: 1rem 1.1rem;
@@ -387,10 +400,14 @@
   background: rgba(255, 255, 255, 0.58);
 }
 
-.holiday-calendar-card__today strong {
+.holiday-calendar-card__today strong,
+.model-hardware-card__note strong,
+.model-hardware-results__summary strong,
+.model-hardware-results__item h3 {
   color: var(--primary-strong);
   font-size: 1rem;
   line-height: 1.7;
+  margin: 0;
 }
 
 .holiday-calendar-card__toolbar {
@@ -398,6 +415,82 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+}
+
+.model-hardware-form {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  align-items: end;
+}
+
+.model-hardware-form__field {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.model-hardware-form__field span {
+  color: var(--text-soft);
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.model-hardware-form select,
+.model-hardware-form input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(76, 61, 137, 0.14);
+  border-radius: 0.95rem;
+  background: rgba(255, 255, 255, 0.82);
+  color: var(--text);
+  font: inherit;
+}
+
+.model-hardware-form__control--disabled,
+.model-hardware-form select:disabled {
+  cursor: not-allowed;
+  background: rgba(228, 231, 239, 0.9);
+  color: rgba(78, 84, 102, 0.85);
+}
+
+.model-hardware-form__memory {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.model-hardware-form__memory strong {
+  color: var(--primary-strong);
+}
+
+.model-hardware-form__submit {
+  min-height: 52px;
+  padding: 0.9rem 1.1rem;
+  border: none;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #fff;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 14px 28px rgba(76, 61, 137, 0.22);
+}
+
+.model-hardware-results {
+  display: grid;
+  gap: 1rem;
+}
+
+.model-hardware-results__list {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.model-hardware-results__meta {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
 .holiday-calendar-card__filters {
@@ -720,7 +813,9 @@
   .question-hero,
   .question-detail-grid,
   .live-clock-card,
-  .holiday-calendar-card__header {
+  .holiday-calendar-card__header,
+  .model-hardware-card__header,
+  .model-hardware-form {
     grid-template-columns: 1fr;
   }
 
@@ -741,7 +836,8 @@
   .answer-card,
   .related-question-card,
   .live-clock-card,
-  .holiday-calendar-card {
+  .holiday-calendar-card,
+  .model-hardware-card {
     padding: 1.25rem;
     border-radius: 24px;
   }
@@ -775,8 +871,14 @@
     flex-wrap: wrap;
   }
 
-  .holiday-calendar-card__filter {
+  .holiday-calendar-card__filter,
+  .model-hardware-form__field {
     min-width: 100%;
+  }
+
+  .model-hardware-form__memory {
+    grid-template-columns: 1fr;
+    gap: 0.4rem;
   }
 
   .holiday-calendar-card__nav {

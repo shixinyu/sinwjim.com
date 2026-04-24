@@ -41,6 +41,7 @@ const answerTitle = question.data.answerTitle ?? 'إجابة منشورة';
 const summary = question.data.summary;
 const isLiveClockQuestion = question.id === '2-كم-الساعة-الآن';
 const isHolidayQuestion = question.id === '7-ما-هو-العيد-اليوم';
+const isModelHardwareQuestion = question.id === '13-هل-جهاز-الكمبيوتر-الخاص-بي-قادر-على-تشغيل-النماذج-الكبيرة';
 const holidayEntriesPayload = JSON.stringify(middleEastReligiousHolidays);
 ---
 
@@ -152,6 +153,61 @@ const holidayEntriesPayload = JSON.stringify(middleEastReligiousHolidays);
               </section>
             )
           }
+          {
+            isModelHardwareQuestion && (
+              <section class="model-hardware-card" aria-label="تقدير تشغيل النماذج المحلية" data-model-hardware>
+                <div class="model-hardware-card__header">
+                  <div>
+                    <p class="model-hardware-card__eyebrow">تشغيل النماذج محلياً</p>
+                    <h2>هل جهازك مناسب للنماذج الكبيرة؟</h2>
+                    <p>اختر فئة المعالج والبطاقة الرسومية، وأدخل مقدار الذاكرة بالـ GiB، ثم احصل على قائمة تقريبية بالنماذج المفتوحة التي تناسب جهازك عبر LM Studio أو Ollama.</p>
+                  </div>
+                  <div class="model-hardware-card__note">
+                    <strong>مهم</strong>
+                    <span>النتيجة تقديرية، وتركز على التجربة الشائعة مع النسخ المضغوطة محلياً، لا على كل إعداد ممكن.</span>
+                  </div>
+                </div>
+                <form class="model-hardware-form" data-model-form>
+                  <label class="model-hardware-form__field">
+                    <span>فئة المعالج</span>
+                    <select data-model-cpu>
+                      <option value="">اختر المعالج</option>
+                      <option value="intel-modern">Intel Core i5/i7/i9 حديث</option>
+                      <option value="intel-entry">Intel Core i3 أو Intel قديم</option>
+                      <option value="amd-modern">AMD Ryzen 5/7/9 حديث</option>
+                      <option value="amd-entry">AMD Ryzen 3 أو AMD قديم</option>
+                      <option value="apple-m1">Apple M1 / M2</option>
+                      <option value="apple-m3">Apple M3 / M4 أو أعلى</option>
+                    </select>
+                  </label>
+                  <label class="model-hardware-form__field">
+                    <span>فئة البطاقة الرسومية</span>
+                    <select data-model-gpu>
+                      <option value="">اختر البطاقة الرسومية</option>
+                      <option value="integrated">مدمجة أو بدون GPU منفصل</option>
+                      <option value="nvidia-entry">NVIDIA GTX 1650 / RTX 3050</option>
+                      <option value="nvidia-mid">NVIDIA RTX 3060 / 4060 / 4070</option>
+                      <option value="nvidia-high">NVIDIA RTX 4080 / 4090</option>
+                      <option value="amd-entry">AMD Radeon RX 6600 / 7600</option>
+                      <option value="amd-mid">AMD Radeon RX 6700 XT / 7700 XT / 7800 XT</option>
+                      <option value="amd-high">AMD Radeon RX 7900 XT / XTX</option>
+                    </select>
+                  </label>
+                  <label class="model-hardware-form__field">
+                    <span>الذاكرة (GiB)</span>
+                    <div class="model-hardware-form__memory">
+                      <input type="text" inputmode="numeric" pattern="[0-9]*" data-model-ram placeholder="مثال: 16" />
+                      <strong>GiB</strong>
+                    </div>
+                  </label>
+                  <button type="submit" class="model-hardware-form__submit">اعرض النماذج المناسبة</button>
+                </form>
+                <div class="model-hardware-results" data-model-results aria-live="polite">
+                  <p class="model-hardware-results__placeholder">اختر المعالج والبطاقة الرسومية وأدخل الذاكرة ثم اضغط الزر لرؤية النماذج المفتوحة المناسبة للتشغيل المحلي.</p>
+                </div>
+              </section>
+            )
+          }
           <div class="question-hero__stats" aria-label="Question activity">
             {stats.map((stat) => (
               <div>
@@ -238,7 +294,7 @@ const holidayEntriesPayload = JSON.stringify(middleEastReligiousHolidays);
   </div>
 
   {
-    (isLiveClockQuestion || isHolidayQuestion) && (
+    (isLiveClockQuestion || isHolidayQuestion || isModelHardwareQuestion) && (
       <script is:inline define:vars={{ holidayEntriesPayload }}>
         (() => {
           const liveClockRoot = document.querySelector('[data-live-clock]');
@@ -447,6 +503,223 @@ const holidayEntriesPayload = JSON.stringify(middleEastReligiousHolidays);
             traditionSelect?.addEventListener('change', (event) => {
               activeTradition = event.currentTarget.value;
               refreshCalendar();
+            });
+          }
+
+          const modelHardwareRoot = document.querySelector('[data-model-hardware]');
+          if (modelHardwareRoot) {
+            const form = modelHardwareRoot.querySelector('[data-model-form]');
+            const cpuSelect = modelHardwareRoot.querySelector('[data-model-cpu]');
+            const gpuSelect = modelHardwareRoot.querySelector('[data-model-gpu]');
+            const ramInput = modelHardwareRoot.querySelector('[data-model-ram]');
+            const results = modelHardwareRoot.querySelector('[data-model-results]');
+            const cpuLabels = {
+              'intel-modern': 'Intel Core حديث',
+              'intel-entry': 'Intel فئة دخول أو أقدم',
+              'amd-modern': 'AMD Ryzen حديث',
+              'amd-entry': 'AMD فئة دخول أو أقدم',
+              'apple-m1': 'Apple M1 / M2',
+              'apple-m3': 'Apple M3 / M4+'
+            };
+            const gpuLabels = {
+              'integrated': 'مدمجة أو بدون GPU منفصل',
+              'nvidia-entry': 'NVIDIA GTX 1650 / RTX 3050',
+              'nvidia-mid': 'NVIDIA RTX 3060 / 4060 / 4070',
+              'nvidia-high': 'NVIDIA RTX 4080 / 4090',
+              'amd-entry': 'AMD Radeon RX 6600 / 7600',
+              'amd-mid': 'AMD Radeon RX 6700 XT / 7700 XT / 7800 XT',
+              'amd-high': 'AMD Radeon RX 7900 XT / XTX',
+              'apple-integrated': 'GPU مدمج داخل Apple Silicon'
+            };
+            const modelCatalog = [
+              {
+                name: 'Llama 3.2 1B Instruct',
+                minRam: 6,
+                cpuTiers: ['intel-entry', 'intel-modern', 'amd-entry', 'amd-modern', 'apple-m1', 'apple-m3'],
+                gpuTiers: ['integrated', 'nvidia-entry', 'nvidia-mid', 'nvidia-high', 'amd-entry', 'amd-mid', 'amd-high', 'apple-integrated'],
+                note: 'مناسب للتجارب السريعة، والتلخيص الخفيف، والدردشة الأساسية.',
+                availability: 'LM Studio / Ollama'
+              },
+              {
+                name: 'Qwen 2.5 3B Instruct',
+                minRam: 8,
+                cpuTiers: ['intel-entry', 'intel-modern', 'amd-entry', 'amd-modern', 'apple-m1', 'apple-m3'],
+                gpuTiers: ['integrated', 'nvidia-entry', 'nvidia-mid', 'nvidia-high', 'amd-entry', 'amd-mid', 'amd-high', 'apple-integrated'],
+                note: 'خيار جيد للأجهزة المتوسطة مع جودة ملحوظة في الكتابة والشرح.',
+                availability: 'LM Studio / Ollama'
+              },
+              {
+                name: 'Gemma 2 2B',
+                minRam: 8,
+                cpuTiers: ['intel-entry', 'intel-modern', 'amd-entry', 'amd-modern', 'apple-m1', 'apple-m3'],
+                gpuTiers: ['integrated', 'nvidia-entry', 'nvidia-mid', 'nvidia-high', 'amd-entry', 'amd-mid', 'amd-high', 'apple-integrated'],
+                note: 'مناسب كبداية خفيفة لتجربة النماذج المفتوحة محلياً.',
+                availability: 'LM Studio / Ollama'
+              },
+              {
+                name: 'Phi-3.5 Mini Instruct',
+                minRam: 10,
+                cpuTiers: ['intel-modern', 'amd-modern', 'apple-m1', 'apple-m3', 'intel-entry', 'amd-entry'],
+                gpuTiers: ['integrated', 'nvidia-entry', 'nvidia-mid', 'nvidia-high', 'amd-entry', 'amd-mid', 'amd-high', 'apple-integrated'],
+                note: 'جيّد للشرح والمهام المكتبية مع حجم صغير نسبياً.',
+                availability: 'LM Studio / Ollama'
+              },
+              {
+                name: 'Llama 3.1 8B Instruct',
+                minRam: 16,
+                cpuTiers: ['intel-modern', 'amd-modern', 'apple-m1', 'apple-m3'],
+                gpuTiers: ['nvidia-entry', 'nvidia-mid', 'nvidia-high', 'amd-entry', 'amd-mid', 'amd-high', 'apple-integrated'],
+                note: 'من أكثر الخيارات العملية شيوعاً على الأجهزة المنزلية القوية نسبياً.',
+                availability: 'LM Studio / Ollama'
+              },
+              {
+                name: 'Qwen 2.5 7B Instruct',
+                minRam: 16,
+                cpuTiers: ['intel-modern', 'amd-modern', 'apple-m1', 'apple-m3'],
+                gpuTiers: ['nvidia-entry', 'nvidia-mid', 'nvidia-high', 'amd-entry', 'amd-mid', 'amd-high', 'apple-integrated'],
+                note: 'خيار جيد للتوازن بين الجودة والحجم في التشغيل المحلي.',
+                availability: 'LM Studio / Ollama'
+              },
+              {
+                name: 'Mistral 7B Instruct',
+                minRam: 16,
+                cpuTiers: ['intel-modern', 'amd-modern', 'apple-m1', 'apple-m3'],
+                gpuTiers: ['nvidia-entry', 'nvidia-mid', 'nvidia-high', 'amd-entry', 'amd-mid', 'amd-high', 'apple-integrated'],
+                note: 'مناسب للدردشة والإنتاجية العامة بنسخ مضغوطة محلياً.',
+                availability: 'LM Studio / Ollama'
+              },
+              {
+                name: 'DeepSeek-R1 Distill Qwen 7B',
+                minRam: 16,
+                cpuTiers: ['intel-modern', 'amd-modern', 'apple-m1', 'apple-m3'],
+                gpuTiers: ['nvidia-mid', 'nvidia-high', 'amd-mid', 'amd-high', 'apple-integrated'],
+                note: 'أقرب لسيناريوهات التفكير والتحليل المنطقي على الأجهزة المتوسطة العالية.',
+                availability: 'LM Studio / Ollama'
+              },
+              {
+                name: 'Qwen 2.5 14B Instruct',
+                minRam: 24,
+                cpuTiers: ['intel-modern', 'amd-modern', 'apple-m1', 'apple-m3'],
+                gpuTiers: ['nvidia-mid', 'nvidia-high', 'amd-mid', 'amd-high', 'apple-integrated'],
+                note: 'يحتاج ذاكرة أعلى، لكنه يمنح جودة أفضل في المهام المعقدة.',
+                availability: 'LM Studio / Ollama'
+              },
+              {
+                name: 'DeepSeek-R1 Distill Qwen 14B',
+                minRam: 24,
+                cpuTiers: ['intel-modern', 'amd-modern', 'apple-m1', 'apple-m3'],
+                gpuTiers: ['nvidia-high', 'amd-high', 'apple-integrated'],
+                note: 'مناسب أكثر لمن يريد تجربة نماذج استدلال أكبر محلياً.',
+                availability: 'LM Studio / Ollama'
+              },
+              {
+                name: 'Llama 3.1 14B',
+                minRam: 24,
+                cpuTiers: ['intel-modern', 'amd-modern', 'apple-m1', 'apple-m3'],
+                gpuTiers: ['nvidia-mid', 'nvidia-high', 'amd-mid', 'amd-high', 'apple-integrated'],
+                note: 'يمكن تشغيله محلياً لكن التجربة تصبح أفضل جداً مع أجهزة أقوى.',
+                availability: 'LM Studio / Ollama'
+              },
+              {
+                name: 'Qwen 2.5 32B Instruct',
+                minRam: 48,
+                cpuTiers: ['apple-m3', 'apple-m1', 'intel-modern', 'amd-modern'],
+                gpuTiers: ['nvidia-high', 'amd-high', 'apple-integrated'],
+                note: 'فئة أكبر تناسب الأجهزة عالية الذاكرة وتستخدم عادة بنسخ مضغوطة بقوة.',
+                availability: 'LM Studio / Ollama'
+              },
+              {
+                name: 'DeepSeek-R1 Distill Qwen 32B',
+                minRam: 48,
+                cpuTiers: ['apple-m3', 'apple-m1', 'intel-modern', 'amd-modern'],
+                gpuTiers: ['nvidia-high', 'amd-high', 'apple-integrated'],
+                note: 'للمهام المعقدة محلياً، لكنه يحتاج ذاكرة عالية وصبراً على السرعة.',
+                availability: 'LM Studio / Ollama'
+              },
+              {
+                name: 'Llama 3.1 70B (quantized)',
+                minRam: 96,
+                cpuTiers: ['apple-m3'],
+                gpuTiers: ['apple-integrated'],
+                note: 'فئة ثقيلة جداً، ممكنة فقط على أجهزة بذاكرة ضخمة وتوقعات سرعة متواضعة.',
+                availability: 'LM Studio / Ollama'
+              }
+            ];
+
+            const isAppleCpu = (cpuValue) => cpuValue.startsWith('apple-');
+            const syncGpuState = () => {
+              if (!gpuSelect) return;
+              const cpuValue = cpuSelect?.value ?? '';
+              const appleCpuSelected = isAppleCpu(cpuValue);
+              gpuSelect.disabled = appleCpuSelected;
+              gpuSelect.classList.toggle('model-hardware-form__control--disabled', appleCpuSelected);
+              if (appleCpuSelected) {
+                gpuSelect.value = 'apple-integrated';
+              } else if (gpuSelect.value === 'apple-integrated') {
+                gpuSelect.value = '';
+              }
+            };
+
+            const renderResults = (items, cpuValue, gpuValue, ramValue) => {
+              if (!results) return;
+              const cpuLabel = cpuLabels[cpuValue] ?? 'غير معروف';
+              const gpuLabel = gpuLabels[gpuValue] ?? 'غير معروف';
+              if (!items.length) {
+                results.innerHTML = `
+                  <div class="model-hardware-results__summary">
+                    <strong>النتيجة الحالية</strong>
+                    <span>المعالج: ${cpuLabel} • البطاقة الرسومية: ${gpuLabel} • الذاكرة: ${ramValue} GiB</span>
+                  </div>
+                  <p class="model-hardware-results__empty">لا تظهر في هذا التقدير نماذج كبيرة مريحة لهذا المستوى. جرّب البدء بنماذج أصغر جداً أو زيادة الذاكرة أو استخدام بطاقة رسومية أقوى إذا كان ذلك ممكناً.</p>
+                `;
+                return;
+              }
+
+              const itemsMarkup = items.map((item) => `
+                <article class="model-hardware-results__item">
+                  <div>
+                    <h3>${item.name}</h3>
+                    <p>${item.note}</p>
+                  </div>
+                  <div class="model-hardware-results__meta">
+                    <span>الحد الأدنى التقديري: ${item.minRam} GiB</span>
+                    <span>${item.availability}</span>
+                  </div>
+                </article>
+              `).join('');
+
+              results.innerHTML = `
+                <div class="model-hardware-results__summary">
+                  <strong>النتيجة الحالية</strong>
+                  <span>المعالج: ${cpuLabel} • البطاقة الرسومية: ${gpuLabel} • الذاكرة: ${ramValue} GiB</span>
+                </div>
+                <div class="model-hardware-results__list">${itemsMarkup}</div>
+              `;
+            };
+
+            syncGpuState();
+            cpuSelect?.addEventListener('change', () => {
+              syncGpuState();
+            });
+
+            form?.addEventListener('submit', (event) => {
+              event.preventDefault();
+              const cpuValue = cpuSelect?.value ?? '';
+              const gpuValue = gpuSelect?.value ?? '';
+              const ramValue = Number.parseInt((ramInput?.value ?? '').trim(), 10);
+              const effectiveGpuValue = isAppleCpu(cpuValue) ? 'apple-integrated' : gpuValue;
+
+              if (!cpuValue || !effectiveGpuValue || !Number.isFinite(ramValue) || ramValue <= 0) {
+                if (results) {
+                  results.innerHTML = '<p class="model-hardware-results__empty">يرجى اختيار المعالج والبطاقة الرسومية وإدخال رقم صحيح للذاكرة بالـ GiB قبل عرض النتيجة.</p>';
+                }
+                return;
+              }
+
+              const matchedModels = modelCatalog.filter((model) => {
+                return model.minRam <= ramValue && model.cpuTiers.includes(cpuValue) && model.gpuTiers.includes(effectiveGpuValue);
+              });
+              renderResults(matchedModels, cpuValue, effectiveGpuValue, ramValue);
             });
           }
         })();
