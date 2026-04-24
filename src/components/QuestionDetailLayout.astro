@@ -125,6 +125,14 @@ const holidayEntriesPayload = JSON.stringify(middleEastReligiousHolidays);
                       <option value="">كل الدول والمناطق</option>
                     </select>
                   </label>
+                  <label class="holiday-calendar-card__filter">
+                    <span>تصفية حسب نوع المناسبة</span>
+                    <select data-holiday-tradition>
+                      <option value="">كل المناسبات الدينية</option>
+                      <option value="islamic">المناسبات الإسلامية</option>
+                      <option value="christian">المناسبات المسيحية</option>
+                    </select>
+                  </label>
                 </div>
                 <div class="holiday-calendar-card__weekdays" aria-hidden="true">
                   <span>الأحد</span>
@@ -295,6 +303,7 @@ const holidayEntriesPayload = JSON.stringify(middleEastReligiousHolidays);
             const prevButton = calendarRoot.querySelector('[data-holiday-prev]');
             const nextButton = calendarRoot.querySelector('[data-holiday-next]');
             const countrySelect = calendarRoot.querySelector('[data-holiday-country]');
+            const traditionSelect = calendarRoot.querySelector('[data-holiday-tradition]');
             const monthFormatter = new Intl.DateTimeFormat('ar', { month: 'long', year: 'numeric' });
             const dayFormatter = new Intl.DateTimeFormat('ar', { day: 'numeric' });
             const fullDateFormatter = new Intl.DateTimeFormat('ar', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
@@ -303,6 +312,7 @@ const holidayEntriesPayload = JSON.stringify(middleEastReligiousHolidays);
             const todayKey = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
             let activeMonth = new Date(today.getFullYear(), today.getMonth(), 1);
             let activeCountry = '';
+            let activeTradition = '';
 
             const allCountries = [...new Set(holidays.flatMap((entry) => entry.countries))].sort((a, b) => a.localeCompare(b, 'ar'));
             if (countrySelect) {
@@ -315,15 +325,22 @@ const holidayEntriesPayload = JSON.stringify(middleEastReligiousHolidays);
             }
 
             const getFilteredHolidays = () => {
-              if (!activeCountry) return holidays;
-              return holidays.filter((entry) => entry.countries.includes(activeCountry));
+              return holidays.filter((entry) => {
+                const countryMatch = !activeCountry || entry.countries.includes(activeCountry);
+                const traditionMatch = !activeTradition || entry.tradition === activeTradition;
+                return countryMatch && traditionMatch;
+              });
             };
 
             const updateTodayCard = () => {
               const todayEntries = getFilteredHolidays().filter((entry) => entry.date === todayKey);
               if (!todayLabel || !todayMeta) return;
               if (!todayEntries.length) {
-                const suffix = activeCountry ? ` في ${activeCountry}` : '';
+                const suffixParts = [];
+                if (activeCountry) suffixParts.push(`في ${activeCountry}`);
+                if (activeTradition === 'islamic') suffixParts.push('ضمن المناسبات الإسلامية');
+                if (activeTradition === 'christian') suffixParts.push('ضمن المناسبات المسيحية');
+                const suffix = suffixParts.length ? ` ${suffixParts.join(' ')}` : '';
                 todayLabel.textContent = `لا يظهر عيد ديني مسجل${suffix} في بيانات اليوم الحالي`;
                 todayMeta.textContent = `تاريخ اليوم: ${fullDateFormatter.format(today)}`;
                 return;
@@ -424,6 +441,11 @@ const holidayEntriesPayload = JSON.stringify(middleEastReligiousHolidays);
 
             countrySelect?.addEventListener('change', (event) => {
               activeCountry = event.currentTarget.value;
+              refreshCalendar();
+            });
+
+            traditionSelect?.addEventListener('change', (event) => {
+              activeTradition = event.currentTarget.value;
               refreshCalendar();
             });
           }

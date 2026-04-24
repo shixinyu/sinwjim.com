@@ -403,6 +403,8 @@
 .holiday-calendar-card__filters {
   display: flex;
   justify-content: flex-start;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .holiday-calendar-card__filter {
