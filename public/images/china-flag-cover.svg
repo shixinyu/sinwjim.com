@@ -1,0 +1,50 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">China flag inspired cover</title>
+  <desc id="desc">Editorial cover inspired by the Chinese flag with a red field, gold stars, and a technology headline card.</desc>
+  <defs>
+    <linearGradient id="bg" x1="120" y1="80" x2="1480" y2="820" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7D0000"/>
+      <stop offset="0.56" stop-color="#C30F1A"/>
+      <stop offset="1" stop-color="#F23D2E"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1220 170) rotate(142) scale(520 360)">
+      <stop stop-color="#FFD978" stop-opacity="0.34"/>
+      <stop offset="1" stop-color="#FFD978" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="shadow" x="0" y="0" width="1600" height="900" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="22" stdDeviation="28" flood-color="#4A0404" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="900" rx="36" fill="url(#bg)"/>
+  <rect width="1600" height="900" rx="36" fill="url(#glow)"/>
+
+  <g opacity="0.16" stroke="#FFD76A" stroke-width="2">
+    <path d="M120 728C264 684 416 658 586 678C756 698 928 750 1114 720C1242 700 1340 654 1480 600" stroke-dasharray="8 12"/>
+    <path d="M164 188L346 242L522 206L704 260L918 228" stroke-dasharray="8 12"/>
+  </g>
+
+  <g fill="#FFD34D">
+    <path d="M248 120L263.283 166.713H312.413L272.565 195.574L287.848 242.287L248 213.426L208.152 242.287L223.435 195.574L183.587 166.713H232.717L248 120Z"/>
+    <path d="M382 116L391.926 146.339H423.839L398.021 165.053L407.946 195.392L382 176.678L356.054 195.392L365.979 165.053L340.161 146.339H372.074L382 116Z"/>
+    <path d="M446 196L455.926 226.339H487.839L462.021 245.053L471.946 275.392L446 256.678L420.054 275.392L429.979 245.053L404.161 226.339H436.074L446 196Z"/>
+    <path d="M438 310L447.926 340.339H479.839L454.021 359.053L463.946 389.392L438 370.678L412.054 389.392L421.979 359.053L396.161 340.339H428.074L438 310Z"/>
+    <path d="M368 388L377.926 418.339H409.839L384.021 437.053L393.946 467.392L368 448.678L342.054 467.392L351.979 437.053L326.161 418.339H358.074L368 388Z"/>
+  </g>
+
+  <g opacity="0.96">
+    <text x="112" y="626" font-family="Verdana, Geneva, sans-serif" font-size="56" font-weight="700" fill="#FFF4D2">Meta x Manus</text>
+    <text x="112" y="690" font-family="Verdana, Geneva, sans-serif" font-size="28" fill="#FFE7A6">Regulation, competition, capital, and the future of AI startups</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="720" y="170" width="700" height="540" rx="40" fill="#8E0913" fill-opacity="0.68" stroke="#FFD76A" stroke-opacity="0.28" stroke-width="2"/>
+    <rect x="792" y="238" width="556" height="404" rx="28" fill="#FFFFFF" fill-opacity="0.08"/>
+    <circle cx="1088" cy="438" r="150" fill="#FFD34D" fill-opacity="0.11"/>
+    <path d="M852 332C954 290 1068 294 1178 338C1238 362 1288 390 1330 430" stroke="#FFD76A" stroke-opacity="0.36" stroke-width="4" stroke-dasharray="10 14"/>
+    <path d="M852 560C952 518 1064 516 1172 546C1232 562 1288 590 1332 628" stroke="#FFD76A" stroke-opacity="0.26" stroke-width="4" stroke-dasharray="10 14"/>
+    <text x="848" y="420" font-family="Verdana, Geneva, sans-serif" font-size="62" font-weight="700" fill="#FFF2C7">China Policy</text>
+    <text x="848" y="490" font-family="Verdana, Geneva, sans-serif" font-size="62" font-weight="700" fill="#FFF2C7">and AI Deals</text>
+    <text x="848" y="566" font-family="Verdana, Geneva, sans-serif" font-size="28" fill="#FFE7A6">A bold red cover with a Chinese flag visual direction</text>
+  </g>
+</svg>
